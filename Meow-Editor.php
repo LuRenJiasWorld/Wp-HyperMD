@@ -1,36 +1,36 @@
 <?php
 /**
  * Plugin Name: Meow Editor
- * Plugin URI: https://github.com/JaxsonWang/Meow-Editor
- * Description: 或许这是WordPress中很好用的Markdown插件。
- * Version: Alpha 0.1
- * Author: 淮城一只猫
- * Author URI: https://iiong.com/
- * License: GPLv3 or later
+ * Plugin URI:  https://github.com/JaxsonWang/Meow-Editor
+ * Description: 轻量级的WordPress编辑器
+ * Version:     0.1 Beta
+ * Author:      淮城一只猫
+ * Author URI:  https://iiong.com
+ * License:     GPL-3.0+
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-require_once 'Parsedown/Parsedown.php';
-
-
-class MeowEditor {
-	function __construct() {
-		remove_filter( 'the_content', 'wpautop' );//取消文章格式文本
-		remove_filter( 'the_content', 'wptexturize' );//取消内容转义
-		remove_filter( 'the_excerpt', 'wptexturize' );//取消摘要转义
-		remove_filter( 'comment_text', 'wptexturize' );//取消评论转义
-
-		add_filter( 'user_can_richedit', '__return_false' );//禁用可视化编辑器
-		add_filter( 'the_content', array( $this, 'mdToHTML' ) );//文章内容
-		add_filter( 'comment_text', array( $this, 'mdToHTML' ) );//评论内容
-	}
-
-	/*Markdown转换HTML*/
-	function mdToHTML( $content ) {
-		$parsedown = new Parsedown();
-		$content   = $parsedown->text( $content );
-		return $content;
-	}
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	 die;
 }
 
-new MeowEditor;//实例化
-?>
+// Define constants.
+define( 'PLUGIN_VERSION', '0.1.3' );
+define( 'MINIMUM_WP_VERSION', '4.8' );
+define( 'PLUGIN_NAME', plugin_basename( __FILE__ ) );
+define( 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+// Check if Jetpack module is enabled.
+if ( ! class_exists( 'WPCom_Markdown' ) ) {
+	include_once PLUGIN_DIR . 'includes/class-easy-markdown.php';
+}
+
+// Load Markdown class.
+include_once PLUGIN_DIR . 'includes/class-markdown-editor.php';
+
+// Get class instance.
+Markdown_Editor::get_instance();
+
+remove_theme_support( 'page', 'wpcom-markdown' );
