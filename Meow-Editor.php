@@ -6,31 +6,33 @@
  * Version:     0.1 Beta
  * Author:      淮城一只猫
  * Author URI:  https://iiong.com
- * License:     GPL-3.0+
+ * License: GPLv3 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-// If this file is called directly, abort.
+// 如果这个文件被直接调用，则中止
 if ( ! defined( 'WPINC' ) ) {
 	 die;
 }
 
-// Define constants.
-define( 'PLUGIN_VERSION', '0.1.3' );
-define( 'MINIMUM_WP_VERSION', '4.8' );
-define( 'PLUGIN_NAME', plugin_basename( __FILE__ ) );
-define( 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'MEOW_EDITOR_VERSION', '0.1 Bete' );
+define( 'MINIMUM_WP_VERSION', '4.5' );
+define( 'MEOW_EDITOR_NAME', plugin_basename( __FILE__ ) );
+define( 'MEOW_EDITOR_DIR', plugin_dir_path( __FILE__ ) );
+define( 'MEOW_EDITOR_URL', plugin_dir_url( __FILE__ ) );
+define( 'MEOW_EDITOR_PATH', dirname( __FILE__ ) );
 
-// Check if Jetpack module is enabled.
+// 检查Jetpack模块是否启用
 if ( ! class_exists( 'WPCom_Markdown' ) ) {
-	include_once PLUGIN_DIR . 'includes/class-easy-markdown.php';
+	// 加载Jetpack模块函数
+	require_once MEOW_EDITOR_PATH . '/lib/class-easy-markdown.php';
 }
 
-// Load Markdown class.
-include_once PLUGIN_DIR . 'includes/class-markdown-editor.php';
+// 检查Markdown编辑器模块是否启用
+if ( ! function_exists( 'Meow_Editor' ) ) {
+	// 加载Markdown编辑器函数
+	require_once MEOW_EDITOR_PATH . '/lib/class-markdown-editor.php';
+}
 
-// Get class instance.
-Markdown_Editor::get_instance();
-
-remove_theme_support( 'page', 'wpcom-markdown' );
+// 获取实体类
+Meow_Editor::get_instance();
