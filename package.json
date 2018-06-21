@@ -1,0 +1,48 @@
+{
+  "name": "WP-HyperMD",
+  "version": "1.0.0",
+  "description": "WordPress Markdown Editor",
+  "scripts": {
+    "postinstall": "gulp copy-assets"
+  },
+  "engines": {
+    "npm": ">=2.1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JaxsonWang/Wp-HyperMD"
+  },
+  "author": "淮城一只猫",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/JaxsonWang/Wp-HyperMD/issues"
+  },
+  "homepage": "https://iiong.com",
+  "dependencies": {
+    "codemirror": "^5.39.0",
+    "del": "^3.0.0",
+    "font-awesome": "^4.7.0",
+    "gulp": "3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-clone": "2.0.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-ignore": "^2.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-merge": "^0.1.1",
+    "gulp-plumber": "^1.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^1.0.0",
+    "gulp-rev": "^8.1.1",
+    "gulp-rimraf": "^0.2.2",
+    "gulp-sequence": "1.0.0",
+    "gulp-sourcemaps": "2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-watch": "5.0.0",
+    "hypermd": "^0.3.6",
+    "merge2": "^1.2.1",
+    "requirejs": "^2.3.5",
+    "run-sequence": "^2.2.1"
+  }
+}
