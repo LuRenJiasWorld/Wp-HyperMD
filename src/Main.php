@@ -75,9 +75,9 @@ class Main {
      */
     public function __construct() {
 
-        $this->plugin_name = 'WP Editor.md';
-        $this->text_domain = 'editormd';
-        $this->version = WP_EDITORMD_VER;
+        $this->plugin_name = 'WP HyperMD';
+        $this->text_domain = 'hypermd';
+        $this->version = WP_HYPERMD_VER;
         $this->loader = new Loader();
 
         $this->run_core();
@@ -157,13 +157,13 @@ class Main {
         // 实现Markdown类
         new WPComMarkdown($this->get_text_domain());
         // 实现设置类
-        //new Settings($this->get_plugin_name(), $this->get_version(), $this->get_text_domain());
+        new Settings($this->get_plugin_name(), $this->get_version(), $this->get_text_domain());
         // 实现插件meta信息
         new PluginMeta($this->get_text_domain());
         // 实现欢迎页面提醒
         new Guide($this->get_text_domain());
         // 根据选项开启相关选项
-        $this->get_option('task_list', 'editor_basics') == 'on' ? new TaskList() : null;
+        new TaskList();
         $this->get_option('imagepaste', 'editor_basics') == 'on' ? new ImagePaste() : null;
         $this->get_option('support_katex', 'editor_katex') == 'on' ? new KaTeX() : null;
         $this->get_option('support_mermaid', 'editor_mermaid') == 'on' ? new Mermaid() : null;

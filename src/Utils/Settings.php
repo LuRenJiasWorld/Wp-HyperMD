@@ -110,61 +110,6 @@ class Settings {
 					'label' => __( 'Use Markdown For Comments', $this->text_domain ),
 					'desc'  => '<a href="' . admin_url( "options-discussion.php#wpcom_publish_comments_with_markdown" ) . '" target="_blank">' . __( 'Go', $this->text_domain ) . '</a>',
 					'type'  => 'html'
-				),
-				array(
-					'name'    => 'task_list',
-					'label'   => __( 'Support Task Lists', $this->text_domain ),
-					'desc'    => __( 'Github Flavored Markdown task lists', $this->text_domain ),
-					'type'    => 'checkbox',
-					'default' => 'off'
-				),
-				array(
-					'name'    => 'imagepaste',
-					'label'   => __( 'Support Image Paste', $this->text_domain ),
-					'desc'    => __( 'Image Paste allows you to copy and paste images from your desktop to the editor', $this->text_domain ),
-					'type'    => 'checkbox',
-					'default' => 'off'
-				),
-                array(
-                    'name'    => 'imagepaste_sm',
-                    'label'   => __( 'ImagePaste Upload Source', $this->text_domain ),
-                    'desc'    => __( 'Change image paste upload source to https://sm.ms', $this->text_domain ),
-                    'type'    => 'checkbox',
-                    'default' => 'off'
-                ),
-				array(
-					'name'    => 'live_preview',
-					'label'   => __( 'Live preview', $this->text_domain ),
-					'desc'    => __( '', $this->text_domain ),
-					'type'    => 'checkbox',
-					'default' => 'off'
-				),
-				array(
-					'name'    => 'sync_scrolling',
-					'label'   => __( 'Sync scrolling', $this->text_domain ),
-					'desc'    => __( '', $this->text_domain ),
-					'type'    => 'checkbox',
-					'default' => 'off'
-				),
-				array(
-					'name'    => 'html_decode',
-					'label'   => __( 'Support Html Decode', $this->text_domain ),
-					'desc'    => __( 'Support rich text analysis', $this->text_domain ),
-					'type'    => 'checkbox',
-					'default' => 'off'
-				),
-				array(
-					'name'    => 'static_cdn',
-					'label'   => __( 'Static File CDN', $this->text_domain ),
-					'desc'    => __( 'Store static files in CDN to increase website speed,<br/>Files List:jQuery,KaTeX,Mermaid,Emoji', $this->text_domain ),
-					'type'    => 'radio',
-					'options' => array(
-						'//cdn.jsdelivr.net'               => __( 'Recommended Use', $this->text_domain ) . ' JSDelivr',
-						'//cdn.bootcss.com'                => __( 'China', $this->text_domain ) . ' BootCDN',
-						'//cdn.staticfile.org'             => __( 'China', $this->text_domain ) . ' Staticfile CDN',
-						'//cdnjs.cloudflare.com/ajax/libs' => __( 'International', $this->text_domain ) . ' CDNJS'
-					),
-					'default' => 'default'
 				)
 			),
 			'editor_style'        => array(
@@ -393,7 +338,7 @@ class Settings {
 					'name'    => 'customize_mindmap',
 					'label'   => __( 'Customize MindMap Library', $this->text_domain ),
 					'type'    => 'text',
-					'default' => WP_EDITORMD_URL . '/assets/Editormd/lib/mindMap.min.js'
+					'default' => WP_HYPERMD_URL . '/assets/Editormd/lib/mindMap.min.js'
 				),
             ),
 			'editor_advanced'     => array(

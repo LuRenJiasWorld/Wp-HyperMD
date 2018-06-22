@@ -9,8 +9,8 @@ class PrismJSCustomize {
 	}
 
 	public function prism_styles_scripts() {
-		wp_enqueue_style( 'Prism', $this->get_option( 'customize_highlight_style', 'syntax_highlighting' ) , array(), WP_EDITORMD_VER, 'all' );
-		wp_enqueue_script( 'Prism', $this->get_option( 'customize_highlight_javascript', 'syntax_highlighting' ) , array(), WP_EDITORMD_VER, 'true' );
+		wp_enqueue_style( 'Prism', $this->get_option( 'customize_highlight_style', 'syntax_highlighting' ) , array(), WP_HYPERMD_VER, 'all' );
+		wp_enqueue_script( 'Prism', $this->get_option( 'customize_highlight_javascript', 'syntax_highlighting' ) , array(), WP_HYPERMD_VER, 'true' );
 	}
 
 	/**

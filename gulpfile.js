@@ -1,7 +1,6 @@
 // 声明变量
 var gulp = require('gulp');
 var plumber = require('gulp-plumber');
-var sass = require('gulp-sass');
 var watch = require('gulp-watch');
 var cssnano = require('gulp-cssnano');
 var rename = require('gulp-rename');
@@ -27,10 +26,6 @@ var paths = cfg.paths;
 
 // 压缩JavaScript文件
 gulp.task('minify', function () {
-    gulp.src(paths.assets + './Require/require.js')
-        .pipe(uglify())
-        .pipe(gulp.dest(paths.assets + './Require/'));
-
     gulp.src(paths.assets + './src/Config/**/*')
         .pipe(uglify())
         .pipe(gulp.dest(paths.assets + './Config/'))

@@ -22,7 +22,7 @@ class MindMap {
 			wp_enqueue_script( 'jQuery-CDN', $this->flow_url('jquery'), array(), '1.12.4', true );
 		}
 
-		wp_enqueue_script( 'MindMap',  $this->get_option( 'customize_mindmap', 'editor_mindmap' ), array(), WP_EDITORMD_VER, true );
+		wp_enqueue_script( 'MindMap',  $this->get_option( 'customize_mindmap', 'editor_mindmap' ), array(), WP_HYPERMD_VER, true );
 	}
 
 	public function mindmap_wp_footer_script() {

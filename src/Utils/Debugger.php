@@ -68,7 +68,7 @@ class Debugger {
 		$debug_info .= '</tr>';
 
 		$debug_info .= '<tr>';
-		$debug_info .= '<th>' . __( 'WP Editor.md Version', $text_domain ) . '</th><th>' . WP_EDITORMD_VER . '</th>';
+		$debug_info .= '<th>' . __( 'WP Editor.md Version', $text_domain ) . '</th><th>' . WP_HYPERMD_VER . '</th>';
 		$debug_info .= '</tr>';
 
 		$debug_info .= '<tr>';

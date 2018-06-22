@@ -59,9 +59,9 @@ class Controller {
 	 */
 	public function enqueue_styles() {
 		//Style - Editor.md
-		wp_enqueue_style( 'Editormd', WP_EDITORMD_URL . '/assets/Editormd/editormd.min.css', array(), '2.0.1', 'all' );
+		wp_enqueue_style( 'Editormd', WP_HYPERMD_URL . '/assets/Editormd/editormd.min.css', array(), '2.0.1', 'all' );
 		//Style - Config
-		wp_enqueue_style( 'Config', WP_EDITORMD_URL . '/assets/Config/editormd.min.css', array(), $this->version, 'all' );
+		wp_enqueue_style( 'Config', WP_HYPERMD_URL . '/assets/Config/editormd.min.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -74,13 +74,18 @@ class Controller {
 		}
 
         //JavaScript - Require
-        wp_enqueue_script( 'Require', WP_EDITORMD_URL . '/assets/Require/require.js', array(), '2.3.5', true );
+        wp_enqueue_script( 'Require', WP_HYPERMD_URL . '/assets/Require/require.js', array(), '2.3.5', true );
 
         //JavaScript - Patch Require
-        wp_enqueue_script( 'Patch', WP_EDITORMD_URL . '/assets/Config/Patch.js', array( 'Require' ), $this->version, true );
+        wp_enqueue_script( 'Patch', WP_HYPERMD_URL . '/assets/Config/Patch.js', array( 'Require' ), $this->version, true );
 
 		//JavaScript - Config
-		wp_enqueue_script( 'HyperMD', WP_EDITORMD_URL . '/assets/Config/HyperMD.js', array( 'Patch' ), $this->version, true );
+		wp_enqueue_script( 'HyperMD', WP_HYPERMD_URL . '/assets/Config/HyperMD.js', array( 'Patch' ), $this->version, true );
+
+
+        wp_localize_script( 'HyperMD', 'HyperMD', array(
+            'hypermdURL'       => WP_HYPERMD_URL,
+        ) );
 	}
 
 
