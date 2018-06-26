@@ -1,7 +1,6 @@
 # Markdown
 
-![](https://raw.githubusercontent.com/JaxsonWang/WP-HyperMD/docs/screenshots/Interface-logo.jpg)
-
+![](https://raw.githubusercontent.com/JaxsonWang/Wp-HyperMD/doc/screenshots/Interface-logo.png)
 
 建议将源码文件复制到编辑器查看学习！
 It is recommended to copy the source code file to the editor to view the study!
