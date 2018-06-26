@@ -1,6 +1,0 @@
-{
-  "paths" : {
-    "node": "./node_modules/",
-    "assets": "./assets/"
-  }
-}
