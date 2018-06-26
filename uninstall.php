@@ -12,16 +12,9 @@ if (
 }
 
 static $options_name = array(
-	'editor_basics',
-	'editor_style',
-	'syntax_highlighting',
-	'editor_emoji',
-	'editor_toc',
-	'editor_katex',
-	'editor_mermaid',
-	'editor_flow',
-	'editor_mindmap',
-	'editor_sequence',
+	'hypermd_basics',
+	'hypermd_syntax_highlighting',
+	'hypermd_editor_advanced'
 );
 
 

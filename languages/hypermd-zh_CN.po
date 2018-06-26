@@ -12,127 +12,124 @@ msgstr ""
 "Project-Id-Version: WordPress - 4.8.x\n"
 
 msgid "Basic Settings"
-msgstr ""
+msgstr "基本设置"
 
 msgid "Syntax Highlighting Settings"
-msgstr ""
+msgstr "语法高亮设置"
 
 msgid "Use Markdown For Posts And Pages"
-msgstr ""
+msgstr "在文章和页面使用Markdown写作"
 
 msgid "Use Markdown For Comments"
-msgstr ""
+msgstr "使评论支持Markdown写作"
 
 msgid "Go"
-msgstr ""
+msgstr "跳转"
 
 msgid "Auto load mode"
-msgstr ""
+msgstr "自动加载"
 
 msgid "Line Numbers"
-msgstr ""
+msgstr "代码行号"
 
 msgid "PrismJS Syntax Highlight Style"
-msgstr ""
+msgstr "主题风格"
 
 msgid "Syntax highlight theme style"
-msgstr ""
+msgstr "语法高亮主题风格"
 
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 msgid "Github"
-msgstr ""
+msgstr "插件源码"
 
 msgid "Blog"
-msgstr ""
+msgstr "我的博客"
 
 msgid "Issues"
-msgstr ""
+msgstr "提交问题"
 
 msgid "Docs"
-msgstr ""
+msgstr "使用文档"
 
 msgid " Options"
-msgstr ""
+msgstr "选项"
 
 msgid "Welcome to the new version of WordPress HyperMD editor, please go to WP HyperMD to configure related settings!"
-msgstr ""
+msgstr "欢迎使用新版本WordPress HyperMD编辑器，请在右边的WP HyperMD选项配置相关设置！"
 
 msgid "Advanced Settings"
-msgstr ""
+msgstr "高级设置"
 
 msgid "Debugger"
-msgstr ""
+msgstr "调试信息"
 
 msgid "Info"
-msgstr ""
+msgstr "获取信息（如果出现问题，请把调试信反馈给作者）"
 
 msgid "Operating System"
-msgstr ""
+msgstr "系统环境"
 
 msgid "Operating Environment"
-msgstr ""
+msgstr "运行环境"
 
 msgid "PHP Version"
-msgstr ""
+msgstr "PHP版本"
 
 msgid "PHP Operating Mode"
-msgstr ""
+msgstr "PHP运行环境"
 
 msgid "Browser Information"
-msgstr ""
+msgstr "浏览器信息"
 
 msgid "WordPress Version"
-msgstr ""
+msgstr "WordPress版本"
 
 msgid "WP HyperMD Version"
-msgstr ""
+msgstr "插件版本"
 
 msgid "jQuery Version"
-msgstr ""
+msgstr "jQuery版本"
 
 msgid "Current Roles"
-msgstr ""
+msgstr "当前用户权限"
 
 msgid "Site URL"
-msgstr ""
+msgstr "WordPress地址"
 
 msgid "Home URL"
-msgstr ""
+msgstr "站点地址"
 
 msgid "Use Markdown for comments."
-msgstr ""
+msgstr "使评论支持Markdown写作"
 
 msgid "Learn more about Markdown."
-msgstr ""
-
-msgid "Line highlight"
-msgstr ""
+msgstr "了解更多关于Markdown的信息"
 
 msgid "Get More <a href=\"https://github.com/JaxsonWang/Prism.js-Style\" target=\"_blank\" rel=\"nofollow\">Theme Style</a>"
-msgstr ""
+msgstr "获取<a href=\"https://github.com/JaxsonWang/Prism.js-Style\" target=\"_blank\" rel=\"nofollow\">主题风格</a>"
 
 msgid "Show Language"
-msgstr ""
+msgstr "显示代码言语"
 
 msgid "Perhaps this is the best and most perfect Markdown editor in WordPress"
-msgstr ""
+msgstr "或许这是一个WordPress中最绚丽的Markdown编辑器"
 
 msgid "Donate"
-msgstr ""
+msgstr "捐赠"
 
 msgid "It is hard to continue development and support for this plugin without contributions from users like you. If you enjoy using WP-HyperMD and find it useful, please consider making a donation. Your donation will help encourage and support the plugin’s continued development and better user support.Thank You!"
-msgstr ""
+msgstr "没有像你这样的用户的贡献，很难继续开发和支持这个插件。如果你喜欢使用WP-HyperMD并且觉得有用，请考虑捐款！您的捐款将有助于鼓励和支持插件的持续开发和更好的用户支持，谢谢！"
 
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "代码粘贴"
 
 msgid "Hide Ads"
-msgstr ""
+msgstr "隐藏捐赠信息"
 
 msgid "Customize Style Library"
-msgstr ""
+msgstr "自定义主题风格文件地址"
 
 msgid "Local Resources"
-msgstr ""
+msgstr "本地资源"

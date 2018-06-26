@@ -6,13 +6,8 @@ use Admin\Controller as ControllerAdmin;
 use Front\Controller as ControllerFront;
 use App\WPComMarkdown;
 use App\PrismJSAuto;
-use App\PrismJSCustomize;
 use App\KaTeX;
-use App\Emoji;
-use App\Mermaid;
 use App\TaskList;
-use App\ImagePaste;
-use App\MindMap;
 use Utils\Guide;
 use Utils\Internationalization;
 use Utils\Loader;
@@ -23,7 +18,7 @@ use Utils\Settings;
  * 核心插件类
  * Class Main
  *
- * @package Editormd
+ * @package HyperMD
  */
 class Main {
 
@@ -164,17 +159,9 @@ class Main {
         new Guide($this->get_text_domain());
         // 根据选项开启相关选项
         new TaskList();
-        $this->get_option('imagepaste', 'editor_basics') == 'on' ? new ImagePaste() : null;
         $this->get_option('support_katex', 'editor_katex') == 'on' ? new KaTeX() : null;
-        $this->get_option('support_mermaid', 'editor_mermaid') == 'on' ? new Mermaid() : null;
-        $this->get_option('support_mindmap', 'editor_mindmap') == 'on' ? new MindMap() : null;
-        $this->get_option('support_emoji', 'editor_emoji') == 'on' ? new Emoji() : null;
 
-        $this->get_option('highlight_mode_auto', 'syntax_highlighting') == 'on' &&
-        $this->get_option('highlight_mode_customize', 'syntax_highlighting') == 'off' ? new PrismJSAuto() : null;
-
-        $this->get_option('highlight_mode_customize', 'syntax_highlighting') == 'on' &&
-        $this->get_option('highlight_mode_auto', 'syntax_highlighting') == 'off' ? new PrismJSCustomize() : null;
+        $this->get_option('highlight_mode_auto', 'hypermd_syntax_highlighting') == 'on' ? new PrismJSAuto() : null;
 
         return;
     }

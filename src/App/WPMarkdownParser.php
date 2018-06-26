@@ -367,7 +367,7 @@ class WPMarkdownParser extends MarkdownExtra {
 
 				//添加Prism相关的类名
 				$lineNumbersClass = '';
-				$this->get_option('line_numbers','syntax_highlighting') == 'on' ? $lineNumbersClass  = ' line-numbers' : null;
+				$this->get_option('line_numbers','hypermd_syntax_highlighting') == 'on' ? $lineNumbersClass  = ' line-numbers' : null;
 
 				$classes = array();
 				$langname = '';

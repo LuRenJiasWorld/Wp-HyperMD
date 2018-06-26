@@ -23,6 +23,8 @@ if (requirejs) requirejs.config({
         { name: 'marked', main: 'lib/marked.js' },
         { name: 'turndown', main: 'lib/turndown.browser.umd.js' },
         { name: 'turndown-plugin-gfm', main: 'dist/turndown-plugin-gfm.js' },
+        { name: 'emojione', main: 'lib/js/emojione.min.js' },
+        { name: 'twemoji', main: '2/twemoji.amd.js' },
     ],
     waitSeconds: 15
 })
@@ -59,6 +61,7 @@ require([
     'hypermd/addon/fold',
     'hypermd/addon/fold-math',
     'hypermd/addon/fold-html',
+    'hypermd/addon/fold-emoji',
     'hypermd/addon/read-link',
     'hypermd/addon/click',
     'hypermd/addon/hover',
@@ -72,6 +75,9 @@ require([
     /////////////////////////////////////////////
     /// PowerPack with third-party libraries  ///
     /////////////////////////////////////////////
+
+    'hypermd/powerpack/fold-emoji-with-emojione',
+    // 'hypermd/powerpack/fold-emoji-with-twemoji',
 
     'hypermd/powerpack/insert-file-with-smms',
 
@@ -89,12 +95,18 @@ require([
 
     // HyperMD magic. See https://laobubu.net/HyperMD/docs/
     var editor = HyperMD.fromTextArea(myTextarea, {
+        mode: {
+            name: "hypermd",
+            hashtag: true,  // this syntax is not actived by default
+        },
+
         hmdClick: clickHandler,
         hmdFold: {
             image: true,
             link: true,
             math: true,
             html: true, // maybe dangerous
+            emoji: true,
         }
     })
     editor.setSize(null, "100%") // set height
@@ -139,7 +151,7 @@ var allowDirectOpen = /directOpen/.test(window.location.search)
 function clickHandler(info, cm) {
     if (info.type === "link" || info.type === "url") {
         var url = info.url
-        if ((allowDirectOpen || info.ctrlKey || info.altKey) && /\.(?:md|markdown)$/.test(url.replace(/[?#].*$/, ''))) {
+        if ((allowDirectOpen || info.ctrlKey || info.altKey) && !/^http/i.test(url) && /\.(?:md|markdown)$/.test(url.replace(/[?#].*$/, ''))) {
             // open a link whose URL is *.md with ajax_load_file
             // and supress HyperMD default behavoir
             load_and_update_editor(url) // see index2.js
@@ -151,5 +163,11 @@ function clickHandler(info, cm) {
             demo_tryout(info) // see index2.js
             return false
         }
+    }
+    if (info.type === "hashtag") {
+        var msg = "You clicked a hashtag"
+        if (info.ctrlKey) msg += " (with Ctrl)"
+        if (info.altKey) msg += " (with Alt)"
+        console.log(msg, info.text, info.pos)
     }
 }

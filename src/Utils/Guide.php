@@ -7,18 +7,18 @@ class Guide {
 	protected $text_domain;
 
 	public function __construct( $text_domain ) {
-		add_action( 'admin_enqueue_scripts', array( $this, 'editormd_admin_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'hypermd_admin_scripts' ) );
 		$this->text_domain = $text_domain;
 	}
 
 	// Each pointer has its own function responsible for putting appropriate JavaScript into footer
-	public function editormd_pointer_footer_script() {
+	public function hypermd_pointer_footer_script() {
 		// Build the main content of your pointer balloon in a variable
-		$pointer_content = __( '<h3>Hello! New WP Editor.md</h3>', $this->text_domain ); // Title should be <h3> for proper formatting.
-		$pointer_content .= '<p>' .__( 'Welcome to the new version of WordPress Editor.md editor, please go to WP Editor.md to configure related settings!', $this->text_domain ) . '</p>';
+		$pointer_content = __( '<h3>Hello! New HyperMD</h3>', $this->text_domain ); // Title should be <h3> for proper formatting.
+		$pointer_content .= '<p>' .__( 'Welcome to the new version of WordPress HyperMD editor, please go to WP HyperMD to configure related settings!', $this->text_domain ) . '</p>';
 		// In JavaScript below:
 		// 1. "#menu-plugins" needs to be the unique id of whatever DOM element in your HTML you want to attach your pointer balloon to.
-		// 2. "editormd" needs to be the unique id, for internal use, of this pointer
+		// 2. "hypermd" needs to be the unique id, for internal use, of this pointer
 		// 3. "position" --
 		//      edge indicates which horizontal spot to hang on to;
 		//      align indicates how to align with element vertically
@@ -36,7 +36,7 @@ class Guide {
                         },
                         close: function () {
                             $.post(ajaxurl, {
-                                pointer: 'editormd',
+                                pointer: 'hypermd',
                                 action: 'dismiss-wp-pointer'
                             });
                         }
@@ -48,7 +48,7 @@ class Guide {
 		<?php
 	}
 
-	public function editormd_admin_scripts() {
+	public function hypermd_admin_scripts() {
 		// You might of course have other scripts enqueued here,
 		// for functionality other than WordPress Pointers.
 
@@ -60,12 +60,12 @@ class Guide {
 		$do_add_script = false;
 
 		// Handle our first pointer announcing the plugin's new settings screen.
-		// check for dismissal of editormd settings menu pointer 'editormd'
-		if ( ! in_array( 'editormd', $seen_it ) ) {
+		// check for dismissal of hypermd settings menu pointer 'hypermd'
+		if ( ! in_array( 'hypermd', $seen_it ) ) {
 			// flip the flag enabling pointer scripts and styles to be added later
 			$do_add_script = true;
-			// hook to function that will output pointer script just for editormd
-			add_action( 'admin_print_footer_scripts', array( $this, 'editormd_pointer_footer_script' ) );
+			// hook to function that will output pointer script just for hypermd
+			add_action( 'admin_print_footer_scripts', array( $this, 'hypermd_pointer_footer_script' ) );
 		}
 
 		// now finally enqueue scripts and styles if we ended up with do_add_script == TRUE

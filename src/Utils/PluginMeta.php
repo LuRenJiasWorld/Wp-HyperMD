@@ -28,8 +28,8 @@ class PluginMeta {
 	public function add_settings_link( $actions ) {
 		return array_merge(
 			array(
-				'<a href="' . admin_url( "plugins.php?page=wp-editormd-settings" ) . '" rel="nofollow">' . __( 'Settings', $this->text_domain ) . '</a>',
-				'<a href="https://github.com/JaxsonWang/WP-Editor.md" target="_blank" rel="nofollow">' . __( 'Github', $this->text_domain ) . '</a>'
+				'<a href="' . admin_url( "plugins.php?page=wp-hypermd-settings" ) . '" rel="nofollow">' . __( 'Settings', $this->text_domain ) . '</a>',
+				'<a href="https://github.com/JaxsonWang/Wp-HyperMD" target="_blank" rel="nofollow">' . __( 'Github', $this->text_domain ) . '</a>'
 			),
 			$actions
 		);
@@ -55,8 +55,8 @@ class PluginMeta {
 			}
 			$new_links = array(
 				'Blog'   => '<a href="https://iiong.com" target="_blank" rel="nofollow">' . __( 'Blog', $this->text_domain ) . '</a>',
-				'Issues' => '<a href="https://github.com/JaxsonWang/WP-Editor.md/issues" target="_blank" rel="nofollow">' . __( 'Issues', $this->text_domain ) . '</a>',
-				'Docs'   => '<a href="https://github.com/JaxsonWang/WP-Editor.md/blob/docs/'. $lang .'/synopsis.md" target="_blank" rel="nofollow">' . __( 'Docs', $this->text_domain ) . '</a>'
+				'Issues' => '<a href="https://github.com/JaxsonWang/Wp-HyperMD/issues" target="_blank" rel="nofollow">' . __( 'Issues', $this->text_domain ) . '</a>',
+				'Docs'   => '<a href="https://github.com/JaxsonWang/Wp-HyperMD/blob/docs/'. $lang .'/synopsis.md" target="_blank" rel="nofollow">' . __( 'Docs', $this->text_domain ) . '</a>'
 			);
 			$links     = array_merge( $links, $new_links );
 		}

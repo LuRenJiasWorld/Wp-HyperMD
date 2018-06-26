@@ -8,13 +8,13 @@ echo "清理完成，下面执行打包构建...\n";
 echo "<br/>";
 
 $zip = new ZipArchive();
-$zip->open('WP-Editor.md.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+$zip->open('WP-HyperMD.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
 $packageDirs = array('assets', 'languages', 'src', 'vendor');
 $packageFiles = array(
 	'readme.txt',
 	'LICENSE',
-	'wp-editormd.php',
+	'wp-hypermd.php',
 	'uninstall.php'
 );
 
@@ -38,4 +38,4 @@ foreach ($packageFiles as $file) {
 }
 $zip->close();
 
-echo "<b>WP-Editor.md.zip</b>压缩构建完成\n";
+echo "<b>WP-HyperMD.zip</b>压缩构建完成\n";
