@@ -12,26 +12,26 @@
  * Domain Path:       /languages
  */
 
-namespace Root;
+namespace HyperMDRoot;
 
 use HyperMD\Main;
-use Utils\Activator;
-use Utils\Deactivator;
+use HyperMDUtils\Activator;
+use HyperMDUtils\Deactivator;
 
-define( 'WP_HYPERMD_VER', '1.0.0' ); //版本说明
-define( 'WP_HYPERMD_URL', plugins_url( '', __FILE__ ) ); //插件资源路径
-define( 'WP_HYPERMD_PATH', dirname( __FILE__ ) ); //插件路径文件夹
-define( 'WP_HYPERMD_NAME', plugin_basename( __FILE__ ) ); //插件名称
+define( 'CAT_HYPERMD_VER', '1.0.0' ); //版本说明
+define( 'CAT_HYPERMD_URL', plugins_url( '', __FILE__ ) ); //插件资源路径
+define( 'CAT_HYPERMD_PATH', dirname( __FILE__ ) ); //插件路径文件夹
+define( 'CAT_HYPERMD_NAME', plugin_basename( __FILE__ ) ); //插件名称
 
 // 自动载入文件
-require_once WP_HYPERMD_PATH . '/vendor/autoload.php';
+require_once CAT_HYPERMD_PATH . '/vendor/autoload.php';
 
 /**
  * 插件激活期间运行的代码
  * includes/class-plugin-name-activator.php
  */
 function activate_hypermd() {
-    Activator::activate();
+	Activator::activate();
 }
 
 /**
@@ -42,8 +42,8 @@ function deactivate_hypermd() {
     Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, '\Root\activate_hypermd' );
-register_deactivation_hook( __FILE__, '\Root\deactivate_hypermd' );
+register_activation_hook( __FILE__, '\HyperMDRoot\activate_hypermd' );
+register_deactivation_hook( __FILE__, '\HyperMDRoot\deactivate_hypermd' );
 
 /**
  * 执行插件函数

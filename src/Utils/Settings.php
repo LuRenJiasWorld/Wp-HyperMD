@@ -1,275 +1,402 @@
 <?php
 
-namespace Utils;
-
-use \SettingsApi\SettingsApi as SettingsGo;
+namespace HyperMDUtils;
 
 class Settings {
+	private $plugin_name;
+	private $plugin_slug;
+	private $verison;
+	private $textdomain;
+	private $options;
+	private $settings;
 
-    /**
-     * @var string 插件名称
-     */
-    private $plugin_name;
+	public function __construct( $plugin_name, $plugin_slug, $version, $textdomain ) {
+		$this->plugin_slug = $plugin_slug;
+		$this->plugin_name = $plugin_name;
+		$this->verison     = $version;
+		$this->textdomain  = str_replace( '_', '-', $plugin_slug );
 
-    /**
-     * @var string 插件版本号
-     */
-    private $version;
+		// 初始化设置
+		add_action( 'admin_init', array( $this, 'init' ) );
 
-    /**
-     * @var string 翻译文本域
-     */
-    protected $text_domain;
+		// 将设置页面添加到菜单
+		add_action( 'admin_menu', array( $this, 'add_menu_item' ) );
+	}
 
-    private $settings_api;
+	/**
+	 * 初始化设置
+	 *
+	 * @return void
+	 */
+	public function init() {
+		$this->settings = $this->settings_fields();
+		$this->options  = $this->get_options();
+		$this->register_settings();
+	}
 
-    function __construct($plugin_name, $version, $text_domain) {
-        $this->plugin_name = $plugin_name;
-        $this->text_domain = $text_domain;
-        $this->version = $version;
+	/**
+	 * 将设置页面添加到菜单
+	 *
+	 * @return void
+	 */
+	public function add_menu_item() {
+		add_plugins_page( $this->plugin_name . __( ' Options', $this->textdomain ), $this->plugin_name, 'manage_options', $this->plugin_slug, array( $this, 'settings_page' ) );
+	}
 
-        $this->settings_api = new SettingsGo;
+	/**
+	 * 构建设置字段
+	 *
+	 * @return array 在设置页面上显示的字段
+	 */
+	private function settings_fields() {
 
-        add_action('admin_init', array($this, 'admin_init'));
-        add_action('admin_menu', array($this, 'admin_menu'));
+		$settings['basic'] = array(
+			'title'       => __( 'Basic Settings', $this->textdomain ),
+			'description' => __( '', $this->textdomain ),
+			'fields'      => array(
+				array(
+					'id'          => 'support_comment',
+					'label'       => __( 'Use Markdown For Posts And Pages', $this->textdomain ),
+					'description' => '<a href="' . admin_url( "options-writing.php" ) . '" target="_blank">' . __( 'Go', $this->textdomain ) . '</a>',
+					'type'        => 'html'
+				),
+				array(
+					'id'          => 'support_post_page',
+					'label'       => __( 'Use Markdown For Comments', $this->textdomain ),
+					'description' => '<a href="' . admin_url( "options-discussion.php#wpcom_publish_comments_with_markdown" ) . '" target="_blank">' . __( 'Go', $this->textdomain ) . '</a>',
+					'type'        => 'html'
+				)
+			)
+		);
+
+		$settings['hypermd_syntax_highlighting'] = array(
+			'title'       => __( 'Syntax Highlighting', $this->textdomain ),
+			'description' => __( '', $this->textdomain ),
+			'fields'      => array(
+				array(
+					'id'          => 'enable_highlight',
+					'label'       => __( 'Enable Syntax Highlighting', $this->textdomain ),
+					'description' => __( '', $this->textdomain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'line_numbers',
+					'label'       => __( 'Line Numbers', $this->textdomain ),
+					'description' => __( '', $this->textdomain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'show_language',
+					'label'       => __( 'Show Code Language', $this->textdomain ),
+					'description' => __( '', $this->textdomain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'copy_clipboard',
+					'label'       => __( 'Copy To Clipboard', $this->textdomain ),
+					'description' => __( '', $this->textdomain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'highlight_library_style',
+					'label'       => __( 'PrismJS Syntax Highlight Style', $this->textdomain ),
+					'description' => __( '', $this->textdomain ),
+					'type'        => 'select',
+					'options'     => array(
+						'default'        => 'Default',
+						'dark'           => 'Dark',
+						'funky'          => 'Funky',
+						'okaidia'        => 'Okaidia',
+						'twilight'       => 'Twilight',
+						'coy'            => 'Coy',
+						'solarizedlight' => 'Solarized Light',
+						'tomorrow'       => 'Tomorrow Night',
+						'customize'      => __( 'Customize Style Library', $this->textdomain )
+					),
+					'default'     => 'default'
+				),
+				array(
+					'id'          => 'customize_my_style',
+					'label'       => __( 'Customize Style Library', $this->textdomain ),
+					'description' => __( 'Get More <a href="https://github.com/JaxsonWang/Prism.js-Style" target="_blank" rel="nofollow">Theme Style</a>', $this->textdomain ),
+					'type'        => 'text',
+					'default'     => '',
+					'placeholder' => __( 'nothing', $this->textdomain )
+				)
+			)
+		);
+
+		$settings = apply_filters( 'plugin_settings_fields', $settings );
+
+		return $settings;
+	}
+
+
+	/**
+	 * 选项默认值保存
+	 *
+	 * @return array 选项的保存或默认选项。
+	 */
+	public function get_options() {
+		$options = get_option( $this->plugin_slug );
+
+		if ( ! $options && is_array( $this->settings ) ) {
+			$options = Array();
+			foreach ( $this->settings as $section => $data ) {
+				foreach ( $data['fields'] as $field ) {
+					$options[ $field['id'] ] = $field['default'];
+				}
+			}
+
+			add_option( $this->plugin_slug, $options );
+		}
+
+		return $options;
+	}
+
+	/**
+     * 获取选项值
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	public function get_opt($data) {
+	    $options = get_option( $this->plugin_slug );
+	    return $options[$data];
     }
 
-    function admin_init() {
+	/**
+	 * 注册插件设置
+	 *
+	 * @return void
+	 */
+	public function register_settings() {
+		if ( is_array( $this->settings ) ) {
 
-        //set the settings
-        $this->settings_api->set_sections($this->get_settings_sections());
-        $this->settings_api->set_fields($this->get_settings_fields());
+			register_setting( $this->plugin_slug, $this->plugin_slug, array( $this, 'validate_fields' ) );
 
-        //initialize settings
-        $this->settings_api->admin_init();
-    }
+			foreach ( $this->settings as $section => $data ) {
 
-    function admin_menu() {
-        add_plugins_page($this->plugin_name . __(' Options', $this->text_domain), $this->plugin_name, 'manage_options', 'wp-hypermd-settings', array($this, 'plugin_page'));
-    }
+				// Add section to page
+				add_settings_section( $section, $data['title'], array( $this, 'settings_section' ), $this->plugin_slug );
 
-    function get_settings_sections() {
-        $sections = array(
-            array(
-                'id' => 'hypermd_basics',
-                'title' => __('Basic Settings', $this->text_domain)
-            ),
-            array(
-                'id' => 'hypermd_syntax_highlighting',
-                'title' => __('Syntax Highlighting Settings', $this->text_domain)
-            ),
-            array(
-                'id' => 'hypermd_editor_advanced',
-                'title' => __('Advanced Settings', $this->text_domain)
-            ),
-        );
+				foreach ( $data['fields'] as $field ) {
 
-        return $sections;
-    }
+					// Add field to page
+					add_settings_field( $field['id'], $field['label'], array( $this, 'display_field' ), $this->plugin_slug, $section, array( 'field' => $field ) );
+				}
+			}
+		}
+	}
 
-    /**
-     * Returns all the settings fields
-     *
-     * @return array settings fields
-     */
-    function get_settings_fields() {
-        $settings_fields = array(
-            'hypermd_basics' => array(
-                array(
-                    'name' => 'support_comment',
-                    'label' => __('Use Markdown For Posts And Pages', $this->text_domain),
-                    'desc' => '<a href="' . admin_url("options-writing.php") . '" target="_blank">' . __('Go', $this->text_domain) . '</a>',
-                    'type' => 'html'
-                ),
-                array(
-                    'name' => 'support_post_page',
-                    'label' => __('Use Markdown For Comments', $this->text_domain),
-                    'desc' => '<a href="' . admin_url("options-discussion.php#wpcom_publish_comments_with_markdown") . '" target="_blank">' . __('Go', $this->text_domain) . '</a>',
-                    'type' => 'html'
-                )
-            ),
-            'hypermd_syntax_highlighting' => array(
-                array(
-                    'name' => 'highlight_mode_auto',
-                    'label' => __('Auto load mode', $this->text_domain),
-                    'desc' => __('', $this->text_domain),
-                    'type' => 'checkbox',
-                    'default' => 'off'
-                ),
-                array(
-                    'name' => 'line_numbers',
-                    'label' => __('Line Numbers', $this->text_domain),
-                    'desc' => __('', $this->text_domain),
-                    'type' => 'checkbox',
-                    'default' => 'off'
-                ),
-                array(
-                    'name' => 'show_language',
-                    'label' => __('Show Language', $this->text_domain),
-                    'desc' => __('', $this->text_domain),
-                    'type' => 'checkbox',
-                    'default' => 'off'
-                ),
-                array(
-                    'name' => 'copy_clipboard',
-                    'label' => __('Copy to Clipboard', $this->text_domain),
-                    'desc' => __('', $this->text_domain),
-                    'type' => 'checkbox',
-                    'default' => 'off'
-                ),
-                array(
-                    'name' => 'highlight_library_style',
-                    'label' => __('PrismJS Syntax Highlight Style', $this->text_domain),
-                    'desc' => __('Syntax highlight theme style', $this->text_domain),
-                    'type' => 'select',
-                    'options' => array(
-                        'default' => 'Default',
-                        'dark' => 'Dark',
-                        'funky' => 'Funky',
-                        'okaidia' => 'Okaidia',
-                        'twilight' => 'Twilight',
-                        'coy' => 'Coy',
-                        'solarizedlight' => 'Solarized Light',
-                        'tomorrow' => 'Tomorrow Night',
-                        'customize' => __('Customize Style', $this->text_domain),
-                    ),
-                    'default' => 'default'
-                ),
-                array(
-                    'name' => 'customize_my_style',
-                    'label' => __('Customize Style Library', $this->text_domain),
-                    'desc' => __('Get More <a href="https://github.com/JaxsonWang/Prism.js-Style" target="_blank" rel="nofollow">Theme Style</a>', $this->text_domain),
-                    'type' => 'text',
-                    'default' => 'notiong'
-                )
-            ),
-            'hypermd_editor_advanced' => array(
-                array(
-                    'name' => 'debugger',
-                    'label' => __('Debugger', $this->text_domain),
-                    'desc' => '<a id="debugger" href="#">' . __('Info', $this->text_domain) . '</a>',
-                    'type' => 'html'
-                ),
-                array(
-                    'name' => 'hide_ads',
-                    'label' => __('Hide Ads', $this->text_domain),
-                    'desc' => __('', $this->text_domain),
-                    'type' => 'checkbox',
-                    'default' => 'off'
-                ),
-            ),
-        );
+	public function settings_section( $section ) {
+		$html = '<p> ' . $this->settings[ $section['id'] ]['description'] . '</p>' . "\n";
+		echo $html;
+	}
 
-        return $settings_fields;
-    }
+	/**
+	 * 生成用于显示字段的HTML
+	 *
+	 * @param  array $args Field data
+	 *
+	 * @return void
+	 */
+	public function display_field( $args ) {
 
-    function plugin_page() {
-        echo '<div class="wrap">';
+		$field = $args['field'];
 
-        $this->settings_api->show_navigation();
-        $this->settings_api->show_forms();
+		$html = '';
 
-        echo Debugger::hypermd_debug($this->text_domain);
+		$option_name = $this->plugin_slug . "[" . $field['id'] . "]";
 
-        if ($this->get_option('hide_ads', 'hypermd_editor_advanced') == 'off') {
-            //判断地区，根据不同的地区进入不同的文档
-            switch (get_bloginfo('language')) {
-                case 'zh-CN':
-                    $donateImgUrl = '//gitee.com/JaxsonWang/JaxsonWang/raw/master/mydonate';
-                    break;
-                default :
-                    $donateImgUrl = '//github.com/JaxsonWang/WP-Editor.md/raw/docs/screenshots';
-            }
-            echo '<div id="donate">';
-            echo '<h3>' . __('Donate', $this->text_domain) . '</h3>';
-            echo '<p style="width: 50%">' . __('It is hard to continue development and support for this plugin without contributions from users like you. If you enjoy using WP-HyperMD and find it useful, please consider making a donation. Your donation will help encourage and support the plugin’s continued development and better user support.Thank You!', $this->text_domain) . '</p>';
-            echo '<p style="display: table;"><strong style="display: table-cell;vertical-align: middle;">Alipay(支付宝)：</strong><a rel="nofollow" target="_blank" href="' . $donateImgUrl . '/alipay.jpg"><img width="100" src="' . $donateImgUrl . '/alipay.jpg"/></a></p>';
-            echo '<p style="display: table;"><strong style="display: table-cell;vertical-align: middle;">WeChat(微信)：</strong><a rel="nofollow" target="_blank" href="' . $donateImgUrl . '/wechart.jpg"><img width="100" src="' . $donateImgUrl . '/wechart.jpg"/></a></p>';
-            echo '<p style="display: table;"><strong style="display: table-cell;vertical-align: middle;">PayPal(贝宝)：</strong><a rel="nofollow" target="_blank" href="https://www.paypal.me/JaxsonWang">https://www.paypal.me/JaxsonWang</a></p>';
-            echo '</div>';
-            echo '</div>';
-        }
+		$data = ( isset( $this->options[ $field['id'] ] ) ) ? $this->options[ $field['id'] ] : '';
 
-        $this->script_style();
-    }
+		switch ( $field['type'] ) {
+			case 'text':
+			case 'password':
+			case 'number':
+				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="' . $field['type'] . '" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" value="' . $data . '"/>' . "\n";
+				break;
 
-    /**
-     * Get all the pages
-     *
-     * @return array page names with key value pairs
-     */
-    function get_pages() {
-        $pages = get_pages();
-        $pages_options = array();
-        if ($pages) {
-            foreach ($pages as $page) {
-                $pages_options[$page->ID] = $page->post_title;
-            }
-        }
+			case 'text_secret':
+				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '" value=""/>' . "\n";
+				break;
 
-        return $pages_options;
-    }
+			case 'textarea':
+				$html .= '<textarea id="' . esc_attr( $field['id'] ) . '" rows="5" cols="50" name="' . esc_attr( $option_name ) . '" placeholder="' . esc_attr( $field['placeholder'] ) . '">' . $data . '</textarea><br/>' . "\n";
+				break;
 
-    /**
-     * 获取字段值
-     *
-     * @param string $option  字段名称
-     * @param string $section 字段名称分组
-     * @param string $default 没搜索到返回空
-     *
-     * @return mixed
-     */
-    private function get_option($option, $section, $default = '') {
+			case 'checkbox':
+				$checked = '';
+				if ( $data && 'on' == $data ) {
+					$checked = 'checked="checked"';
+				}
+				$html .= '<input id="' . esc_attr( $field['id'] ) . '" type="' . $field['type'] . '" name="' . esc_attr( $option_name ) . '" ' . $checked . '/>' . "\n";
+				break;
 
-        $options = get_option($section);
+			case 'checkbox_multi':
+				foreach ( $field['options'] as $k => $v ) {
+					$checked = false;
+					if ( is_array( $data ) && in_array( $k, $data ) ) {
+						$checked = true;
+					}
+					$html .= '<label for="' . esc_attr( $field['id'] . '_' . $k ) . '"><input type="checkbox" ' . checked( $checked, true, false ) . ' name="' . esc_attr( $option_name ) . '[]" value="' . esc_attr( $k ) . '" id="' . esc_attr( $field['id'] . '_' . $k ) . '" /> ' . $v . '</label> ';
+				}
+				break;
 
-        if (isset($options[$option])) {
-            return $options[$option];
-        }
+			case 'radio':
+				foreach ( $field['options'] as $k => $v ) {
+					$checked = false;
+					if ( $k == $data ) {
+						$checked = true;
+					}
+					$html .= '<label for="' . esc_attr( $field['id'] . '_' . $k ) . '"><input type="radio" ' . checked( $checked, true, false ) . ' name="' . esc_attr( $option_name ) . '" value="' . esc_attr( $k ) . '" id="' . esc_attr( $field['id'] . '_' . $k ) . '" /> ' . $v . '</label> ';
+				}
+				break;
 
-        return $default;
-    }
+			case 'select':
+				$html .= '<select name="' . esc_attr( $option_name ) . '" id="' . esc_attr( $field['id'] ) . '">';
+				foreach ( $field['options'] as $k => $v ) {
+					$selected = false;
+					if ( $k == $data ) {
+						$selected = true;
+					}
+					$html .= '<option ' . selected( $selected, true, false ) . ' value="' . esc_attr( $k ) . '">' . $v . '</option>';
+				}
+				$html .= '</select> ';
+				break;
 
-    private function script_style() {
-        ?>
-        <style type="text/css" rel="stylesheet">
-            /*设置选项样式*/
-            .debugger-wrap {
-                margin-top: 10px;
-                display: none;
-            }
+			case 'select_multi':
+				$html .= '<select name="' . esc_attr( $option_name ) . '[]" id="' . esc_attr( $field['id'] ) . '" multiple="multiple">';
+				foreach ( $field['options'] as $k => $v ) {
+					$selected = false;
+					if ( in_array( $k, $data ) ) {
+						$selected = true;
+					}
+					$html .= '<option ' . selected( $selected, true, false ) . ' value="' . esc_attr( $k ) . '" />' . $v . '</label> ';
+				}
+				$html .= '</select> ';
+				break;
 
-            .debugger-wrap tbody tr {
-                width: 100%;
-                text-align: left;
-            }
+			case 'html':
+				$html .= '<span class="description">' . $data . '</span>';
+				break;
+		}
 
-            .debugger-wrap tbody tr th {
-                padding: 5px 10px 5px 0;
-            }
+		switch ( $field['type'] ) {
 
-            .debugger-wrap tbody tr th:nth-child(2) {
-                color: #006686;
-                width: 75%;
-            }
-        </style>
-        <script type="text/javascript">
-            (function ($) {
-                //插入信息
-                $('#jquery').text(jQuery.fn.jquery);
-                //切换显示信息
-                $('#debugger').click(function () {
-                    $('.debugger-wrap').fadeToggle();
-                    $('#donate').fadeToggle();
-                });
-                //判断非调试界面则隐藏
-                $('a[href!="#hypermd_editor_advanced"].nav-tab').click(function () {
-                    $('.debugger-wrap').fadeOut();
-                    $('#donate').fadeIn();
-                });
-            })(jQuery);
+			case 'checkbox_multi':
+			case 'radio':
+			case 'select_multi':
+				$html .= '<br/><span class="description">' . $field['description'] . '</span>';
+				break;
+
+			default:
+				$html .= '<label for="' . esc_attr( $field['id'] ) . '"><span class="description">' . $field['description'] . '</span></label>' . "\n";
+				break;
+		}
+
+		echo $html;
+	}
+
+	/**
+	 * 验证个别设置字段
+	 *
+	 * @param  array $data Inputted value
+	 *
+	 * @return array       Validated value
+	 */
+	public function validate_fields( $data ) {
+		// $data数组包含要保存的值：
+		// 要么清理/修改$data，要么返回false
+		// 防止保存新选项
+
+		// Sanitize fields, eg. cast number field to integer
+		// $data['number_field'] = (int) $data['number_field'];
+
+		// Validate fields, eg. don't save options if the password field is empty
+		// if ( $data['password_field'] == '' ) {
+		// 	add_settings_error( $this->plugin_slug, 'no-password', __('A password is required.', $this->textdomain), 'error' );
+		// 	return false;
+		// }
+
+		return $data;
+	}
+
+	/**
+	 * 加载设置页面内容
+	 *
+	 * @return void
+	 */
+	public function settings_page() {
+		// 构建页面HTML输出
+		// 如果您不需要选项卡式导航，只需删除<!-- Tab navigation -->标记之间的所有内容。
+		?>
+        <div class="wrap" id="<?php echo $this->plugin_slug; ?>">
+            <h2><?php _e( 'WP HyperMD Settings', $this->textdomain ); ?></h2>
+            <p><?php _e( 'Hi! Welcome!', $this->textdomain ); ?></p>
+
+            <!-- Tab navigation starts -->
+            <h2 class="nav-tab-wrapper settings-tabs hide-if-no-js">
+				<?php
+				foreach ( $this->settings as $section => $data ) {
+					echo '<a href="#' . $section . '" class="nav-tab">' . $data['title'] . '</a>';
+				}
+				?>
+            </h2>
+			<?php $this->do_script_for_tabbed_nav(); ?>
+            <!-- Tab navigation ends -->
+
+            <form action="options.php" method="POST">
+				<?php settings_fields( $this->plugin_slug ); ?>
+                <div class="settings-container">
+					<?php do_settings_sections( $this->plugin_slug ); ?>
+                </div>
+				<?php submit_button(); ?>
+            </form>
+        </div>
+		<?php
+	}
+
+	/**
+	 * 打印选项卡式导航的jQuery脚本
+	 *
+	 * @return void
+	 */
+	private function do_script_for_tabbed_nav() {
+		// 用于选项卡式导航的非常简单的jQuery逻辑。
+		// 如果您不需要，请删除此功能。
+		// 如果你有其他JS文件，你可以在那里合并。
+		?>
+        <script>
+            jQuery(document).ready(function ($) {
+                var headings = jQuery('.settings-container > h2, .settings-container > h3');
+                var paragraphs = jQuery('.settings-container > p');
+                var tables = jQuery('.settings-container > table');
+                var triggers = jQuery('.settings-tabs a');
+
+                triggers.each(function (i) {
+                    triggers.eq(i).on('click', function (e) {
+                        e.preventDefault();
+                        triggers.removeClass('nav-tab-active');
+                        headings.hide();
+                        paragraphs.hide();
+                        tables.hide();
+
+                        triggers.eq(i).addClass('nav-tab-active');
+                        headings.eq(i).show();
+                        paragraphs.eq(i).show();
+                        tables.eq(i).show();
+                    });
+                })
+
+                triggers.eq(0).click();
+            });
         </script>
-        <?php
-    }
-
+		<?php
+	}
 }

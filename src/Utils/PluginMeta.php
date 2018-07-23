@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils;
+namespace HyperMDUtils;
 
 
 class PluginMeta {
@@ -11,7 +11,7 @@ class PluginMeta {
 		$this->text_domain = $text_domain;
 
 		// Add settings link to plugins page
-		add_filter( 'plugin_action_links_' . WP_HYPERMD_NAME, array( $this, 'add_settings_link' ), 10, 5 );
+		add_filter( 'plugin_action_links_' . CAT_HYPERMD_NAME, array( $this, 'add_settings_link' ), 10, 5 );
 
 		// Add settings meta to plugins page
 		add_filter( 'plugin_row_meta', array( $this, 'add_plugin_row_meta' ), 10, 2 );
@@ -44,7 +44,7 @@ class PluginMeta {
 	 * @return array
 	 */
 	public function add_plugin_row_meta( $links, $file ) {
-		if ( strpos( $file, WP_HYPERMD_NAME ) !== false ) {
+		if ( strpos( $file, CAT_HYPERMD_NAME ) !== false ) {
 			//判断地区，根据不同的地区进入不同的文档
 			switch (get_bloginfo( 'language' )) {
 				case 'zh-CN':

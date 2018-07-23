@@ -14,16 +14,15 @@
 	"autoload" : {
 		"psr-4" : {
 			"HyperMD\\" : "src/",
-			"Admin\\" : "src/Admin",
-			"Front\\" : "src/Front",
-			"Utils\\" : "src/Utils",
-			"App\\" : "src/App"
+			"HyperMDAdmin\\" : "src/Admin",
+			"HyperMDFront\\" : "src/Front",
+			"HyperMDUtils\\" : "src/Utils",
+			"HyperMDApp\\" : "src/App"
 		}
 	},
 	"require" : {
 		"php" : ">=5.3.0",
-		"michelf/php-markdown": "^1.8",
-		"jaxsonwang/wp-settings-api-class": "dev-master"
+		"michelf/php-markdown": "^1.8"
 	},
 	"homepage" : "https://github.com/JaxsonWang/Wp-HyperMD"
 }

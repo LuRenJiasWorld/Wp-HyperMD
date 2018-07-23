@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace HyperMDApp;
 
 class WPComMarkdown {
 
@@ -12,7 +12,9 @@ class WPComMarkdown {
 	private static $parser;
 
 	// 翻译文本域
-	protected $text_domain;
+	private $text_domain;
+
+	private $plugin_slug;
 
 	// to ensure that our munged posts over xml-rpc are removed from the cache
 	public $posts_to_uncache = array();
@@ -21,8 +23,9 @@ class WPComMarkdown {
 	/**
 	 * Singleton silence is golden
 	 */
-	public function __construct( $text_domain ) {
+	public function __construct( $text_domain, $plugin_slug ) {
 		$this->text_domain = $text_domain;
+		$this->plugin_slug = $plugin_slug;
 		add_action( 'init', array( $this, 'load' ) );
 	}
 
@@ -335,7 +338,7 @@ class WPComMarkdown {
 	public function get_parser() {
 
 		if ( ! self::$parser ) {
-			self::$parser = new WPMarkdownParser();
+			self::$parser = new WPMarkdownParser( $this->plugin_slug );
 		}
 
 		return self::$parser;

@@ -11,17 +11,10 @@ if (
 	exit;
 }
 
-static $options_name = array(
-	'hypermd_basics',
-	'hypermd_syntax_highlighting',
-	'hypermd_editor_advanced'
-);
-
+static $options_name = 'wp-hypermd-settings';
 
 // 删除选项
-foreach($options_name as $optionName) {
-	delete_option($optionName);
-}
+delete_option($options_name);
 
 //开启自带可视化编辑器
 add_filter( 'user_can_richedit', '__return_true' );

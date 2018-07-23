@@ -1,10 +1,12 @@
 <?php
 
-namespace App;
+namespace HyperMDApp;
 
 use Michelf\MarkdownExtra;
 
 class WPMarkdownParser extends MarkdownExtra {
+
+	private $plugin_slug;
 
 	/**
 	 * Hooray somewhat arbitrary numbers that are fearful of 1.0.x.
@@ -44,7 +46,10 @@ class WPMarkdownParser extends MarkdownExtra {
 	/**
 	 * Set environment defaults based on presence of key functions/classes.
 	 */
-	public function __construct() {
+	public function __construct( $plugin_slug ) {
+
+		$this->plugin_slug = $plugin_slug;
+
 		/**
 		 * Allow processing shortcode contents.
 		 *
@@ -367,7 +372,7 @@ class WPMarkdownParser extends MarkdownExtra {
 
 				//添加Prism相关的类名
 				$lineNumbersClass = '';
-				$this->get_option('line_numbers','hypermd_syntax_highlighting') == 'on' ? $lineNumbersClass  = ' line-numbers' : null;
+				$this->get_opt('line_numbers') == 'on' ? $lineNumbersClass  = ' line-numbers' : null;
 
 				$classes = array();
 				$langname = '';
@@ -444,22 +449,13 @@ class WPMarkdownParser extends MarkdownExtra {
 	}
 
 	/**
-	 * 获取字段值
-	 *
-	 * @param string $option 字段名称
-	 * @param string $section 字段名称分组
-	 * @param string $default 没搜索到返回空
+	 * 获取选项值
+	 * @param $data
 	 *
 	 * @return mixed
 	 */
-	private function get_option( $option, $section, $default = '' ) {
-
-		$options = get_option( $section );
-
-		if ( isset( $options[ $option ] ) ) {
-			return $options[ $option ];
-		}
-
-		return $default;
+	public function get_opt($data) {
+		$options = get_option( $this->plugin_slug );
+		return $options[$data];
 	}
 }

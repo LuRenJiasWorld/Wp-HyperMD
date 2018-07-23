@@ -2,17 +2,16 @@
 
 namespace HyperMD;
 
-use Admin\Controller as ControllerAdmin;
-use Front\Controller as ControllerFront;
-use App\WPComMarkdown;
-use App\PrismJSAuto;
-use App\KaTeX;
-use App\TaskList;
-use Utils\Guide;
-use Utils\Internationalization;
-use Utils\Loader;
-use Utils\PluginMeta;
-use Utils\Settings;
+use HyperMDAdmin\Controller as ControllerAdmin;
+use HyperMDFront\Controller as ControllerFront;
+use HyperMDApp\WPComMarkdown;
+use HyperMDApp\PrismJSAuto;
+use HyperMDApp\TaskList;
+use HyperMDUtils\Guide;
+use HyperMDUtils\Internationalization;
+use HyperMDUtils\Loader;
+use HyperMDUtils\PluginMeta;
+use HyperMDUtils\Settings;
 
 /**
  * 核心插件类
@@ -71,8 +70,9 @@ class Main {
     public function __construct() {
 
         $this->plugin_name = 'WP HyperMD';
+        $this->plugin_slug = 'wp-hypermd-settings';
         $this->text_domain = 'hypermd';
-        $this->version = WP_HYPERMD_VER;
+        $this->version = CAT_HYPERMD_VER;
         $this->loader = new Loader();
 
         $this->run_core();
@@ -150,18 +150,17 @@ class Main {
      */
     public function run_core() {
         // 实现Markdown类
-        new WPComMarkdown($this->get_text_domain());
+        new WPComMarkdown($this->get_text_domain(), $this->get_plugin_slug());
         // 实现设置类
-        new Settings($this->get_plugin_name(), $this->get_version(), $this->get_text_domain());
+        new Settings($this->get_plugin_name(), $this->get_plugin_slug(), $this->get_version(), $this->get_text_domain());
         // 实现插件meta信息
         new PluginMeta($this->get_text_domain());
         // 实现欢迎页面提醒
         new Guide($this->get_text_domain());
         // 根据选项开启相关选项
         new TaskList();
-        $this->get_option('support_katex', 'editor_katex') == 'on' ? new KaTeX() : null;
 
-        $this->get_option('highlight_mode_auto', 'hypermd_syntax_highlighting') == 'on' ? new PrismJSAuto() : null;
+        $this->get_option('highlight_mode_auto', 'hypermd_syntax_highlighting') == 'on' ? new PrismJSAuto( $this->get_plugin_slug() ) : null;
 
         return;
     }
@@ -175,6 +174,14 @@ class Main {
      */
     public function get_plugin_name() {
         return $this->plugin_name;
+    }
+
+	/**
+	 * Get slug
+	 * @return string
+	 */
+    public function get_plugin_slug() {
+    	return $this->plugin_slug;
     }
 
 

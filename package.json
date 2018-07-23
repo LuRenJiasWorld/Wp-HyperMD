@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "WordPress Markdown Editor",
   "scripts": {
-    "postinstall": "gulp copy-assets"
+    "postinstall": "gulp copy-assets",
+    "minify": "gulp minify",
+    "clean assets": "gulp clean-assets",
+    "watch": "gulp watch"
   },
   "engines": {
     "npm": ">=2.1.8"

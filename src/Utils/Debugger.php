@@ -1,6 +1,6 @@
 <?php
 
-namespace Utils;
+namespace HyperMDUtils;
 
 class Debugger {
 
@@ -46,7 +46,7 @@ class Debugger {
         $debug_info .= '</tr>';
 
         $debug_info .= '<tr>';
-        $debug_info .= '<th>' . __('HyperMD Version', $text_domain) . '</th><th>' . WP_HYPERMD_VER . '</th>';
+        $debug_info .= '<th>' . __('HyperMD Version', $text_domain) . '</th><th>' . CAT_HYPERMD_VER . '</th>';
         $debug_info .= '</tr>';
 
         $debug_info .= '<tr>';

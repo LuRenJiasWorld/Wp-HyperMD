@@ -4,7 +4,7 @@
  * 注册插件actions和filters
  */
 
-namespace Utils;
+namespace HyperMDUtils;
 
 class Loader {
 

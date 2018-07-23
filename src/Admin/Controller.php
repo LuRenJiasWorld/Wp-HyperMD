@@ -1,8 +1,8 @@
 <?php
 
-namespace Admin;
+namespace HyperMDAdmin;
 
-use App\WPComMarkdown;
+use HyperMDApp\WPComMarkdown;
 
 class Controller {
     /**
@@ -68,14 +68,14 @@ class Controller {
         wp_enqueue_script('Require', '//cdn.jsdelivr.net/npm/requirejs@2.3.5/require.js', array(), '2.3.5', true);
 
         //JavaScript - Patch Require
-        wp_enqueue_script('Patch', WP_HYPERMD_URL . '/assets/Config/Patch.js', array('Require'), $this->version, true);
+        wp_enqueue_script('Patch', CAT_HYPERMD_URL . '/assets/Config/Patch.js', array('Require'), $this->version, true);
 
         //JavaScript - Config
-        wp_enqueue_script('HyperMD', WP_HYPERMD_URL . '/assets/Config/HyperMD.js', array('Patch'), $this->version, true);
+        wp_enqueue_script('HyperMD', CAT_HYPERMD_URL . '/assets/Config/HyperMD.js', array('Patch'), $this->version, true);
 
 
         wp_localize_script('HyperMD', 'WPHyperMD', array(
-            'hypermdURL' => WP_HYPERMD_URL
+            'hypermdURL' => CAT_HYPERMD_URL
         ));
     }
 
@@ -110,26 +110,6 @@ class Controller {
         $qt_init['buttons'] = '';
 
         return $qt_init;
-    }
-
-    /**
-     * 获取字段值
-     *
-     * @param string $option  字段名称
-     * @param string $section 字段名称分组
-     * @param string $default 没搜索到返回空
-     *
-     * @return mixed
-     */
-    public function get_option($option, $section, $default = '') {
-
-        $options = get_option($section);
-
-        if (isset($options[$option])) {
-            return $options[$option];
-        }
-
-        return $default;
     }
 
 }
