@@ -4,9 +4,8 @@
 [![GitHub forks](https://img.shields.io/github/forks/JaxsonWang/WP-HyperMD.svg)](https://github.com/JaxsonWang/WP-HyperMD/network)
 [![GitHub stars](https://img.shields.io/github/stars/JaxsonWang/WP-HyperMD.svg)](https://github.com/JaxsonWang/WP-HyperMD/stargazers)
 [![GitHub license](https://img.shields.io/github/license/JaxsonWang/WP-HyperMD.svg)](https://github.com/JaxsonWang/WP-HyperMD/blob/V5.0/LICENSE)
-[![Latest Unstable Version](https://poser.pugx.org/jaxson-wang/WP-HyperMD/v/unstable)](https://packagist.org/packages/jaxson-wang/WP-HyperMD)
-[![composer.lock](https://poser.pugx.org/jaxson-wang/WP-HyperMD/composerlock)](https://packagist.org/packages/jaxson-wang/WP-HyperMD)
-[![Code Climate](https://codeclimate.com/github/JaxsonWang/WP-HyperMD/badges/gpa.svg)](https://codeclimate.com/github/JaxsonWang/WP-HyperMD)
+[![Latest Unstable Version](https://poser.pugx.org/jaxsonwang/wp-hypermd/v/unstable)](https://packagist.org/packages/jaxsonwang/wp-hypermd)
+[![composer.lock](https://poser.pugx.org/jaxsonwang/wp-hypermd/composerlock)](https://packagist.org/packages/jaxsonwang/wp-hypermd)
 
 ### 说明 Description
 
