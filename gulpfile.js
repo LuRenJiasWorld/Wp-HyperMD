@@ -27,35 +27,60 @@ var paths = cfg.paths;
 // 压缩JavaScript文件
 gulp.task('minify', function () {
     gulp.src(paths.assets + './src/Config/**/*')
-        .pipe(uglify())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(cleanCSS({compatibility: '*'})) //压缩
+        .pipe(plumber({
+            errorHandler: function (err) {
+                console.log(err);
+                this.emit('end');
+            }
+        }))
+        .pipe(rename({suffix: '.min'})) //重命名
+        .pipe(cssnano({discardComments: {removeAll: true}})) //压缩
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.assets + './Config/'))
 });
 
 // 复制资源源码文件
 gulp.task('copy-assets', function () {
     // 复制 require 文件
-    gulp.src(paths.node + './requirejs/require.js').pipe(gulp.dest(paths.assets + './Require/'));
+    gulp.src(paths.node + './requirejs/require.js').pipe(gulp.dest(paths.assets + './require/'));
 
     // 复制 hypermd 文件夹
-    gulp.src(paths.node + './hypermd/**/*').pipe(gulp.dest(paths.assets + './HyperMD/'));
+    gulp.src(paths.node + './hypermd/**/*').pipe(gulp.dest(paths.assets + './hypermd/'));
 
     // 复制 codemirror 文件夹
-    gulp.src(paths.node + './codemirror/**/*').pipe(gulp.dest(paths.assets + './CodeMirror/'));
+    gulp.src(paths.node + './codemirror/**/*').pipe(gulp.dest(paths.assets + './codemirror/'));
 
     // 复制 mathjax 文件夹
-    gulp.src(paths.node + './mathjax/**/*').pipe(gulp.dest(paths.assets + './MathJax/'));
+    gulp.src(paths.node + './mathjax/**/*').pipe(gulp.dest(paths.assets + './mathjax/'));
 
     // 复制 katex 文件夹
-    gulp.src(paths.node + './katex/**/*').pipe(gulp.dest(paths.assets + './KaTeX/'));
+    gulp.src(paths.node + './katex/**/*').pipe(gulp.dest(paths.assets + './katex/'));
 
     // 复制 marked 文件夹
-    gulp.src(paths.node + './marked/**/*').pipe(gulp.dest(paths.assets + './Marked/'));
+    gulp.src(paths.node + './marked/**/*').pipe(gulp.dest(paths.assets + './marked/'));
 
     // 复制 turndown 文件夹
-    gulp.src(paths.node + './turndown/**/*').pipe(gulp.dest(paths.assets + './Turndown/'));
+    gulp.src(paths.node + './turndown/**/*').pipe(gulp.dest(paths.assets + './turndown/'));
+
+    // 复制 raphael 文件夹
+    gulp.src(paths.node + './raphael/**/*').pipe(gulp.dest(paths.assets + './raphael/'));
+
+    // 复制 emojione 文件夹
+    gulp.src(paths.node + './emojione/**/*').pipe(gulp.dest(paths.assets + './emojione/'));
+
+    // 复制 twemoji 文件夹
+    gulp.src(paths.node + './twemoji/**/*').pipe(gulp.dest(paths.assets + './twemoji/'));
+
+    // 复制 flowchart 文件夹
+    gulp.src(paths.node + './flowchart/**/*').pipe(gulp.dest(paths.assets + './flowchart/'));
+
+    // 复制 mermaid 文件夹
+    gulp.src(paths.node + './mermaid/**/*').pipe(gulp.dest(paths.assets + './mermaid/'));
 
     // 复制 turndown-plugin-gfm 文件夹
-    gulp.src(paths.node + './turndown-plugin-gfm/**/*').pipe(gulp.dest(paths.assets + './Turndown-Plugin-GFM/'));
+    gulp.src(paths.node + './turndown-plugin-gfm/**/*').pipe(gulp.dest(paths.assets + './turndown-plugin-gfm/'));
 });
 
 // 删除发布资源文件

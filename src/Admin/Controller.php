@@ -21,19 +21,6 @@ class Controller {
     private $text_domain;
 
     /**
-     * 筛选markdown post 类型
-     *
-     * @return string
-     */
-    public function get_post_type() {
-        if (!function_exists('get_current_screen')) {
-            return null;
-        }
-
-        return get_current_screen()->post_type;
-    }
-
-    /**
      * Controller constructor 初始化类并设置其属性
      *
      * @param $plugin_name
@@ -46,7 +33,7 @@ class Controller {
         $this->text_domain = $text_domain;
         $this->version = $version;
 
-        add_filter('quicktags_settings', array($this, 'quicktags_settings'), 'content');
+	    add_filter('quicktags_settings', array($this, 'quicktags_settings'));
 
         add_action('admin_init', array($this, 'hypermd_markdown_posting_always_on'), 11);
 
@@ -60,18 +47,17 @@ class Controller {
      */
     public function enqueue_scripts() {
 
-        if (!post_type_supports($this->get_post_type(), WPComMarkdown::POST_TYPE_SUPPORT)) {
-            return;
-        }
+        //JavaScript - Mermaid
+        wp_enqueue_script('Mermaid', '//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', array(), $this->version, true);
 
-        //JavaScript - Require
-        wp_enqueue_script('Require', '//cdn.jsdelivr.net/npm/requirejs@2.3.5/require.js', array(), '2.3.5', true);
+	    //JavaScript - Require
+        wp_enqueue_script('Require', '//cdn.jsdelivr.net/npm/requirejs/require.min.js', array(), $this->version, true);
 
         //JavaScript - Patch Require
-        wp_enqueue_script('Patch', CAT_HYPERMD_URL . '/assets/Config/Patch.js', array('Require'), $this->version, true);
+        wp_enqueue_script('Patch', CAT_HYPERMD_URL . '/assets/src/Config/Patch.js', array('Require'), $this->version, true);
 
         //JavaScript - Config
-        wp_enqueue_script('HyperMD', CAT_HYPERMD_URL . '/assets/Config/HyperMD.js', array('Patch'), $this->version, true);
+        wp_enqueue_script('HyperMD', CAT_HYPERMD_URL . '/assets/src/Config/HyperMD.js', array('Patch'), $this->version, true);
 
 
         wp_localize_script('HyperMD', 'WPHyperMD', array(
@@ -100,14 +86,9 @@ class Controller {
      *
      * @return mixed
      */
-    public function quicktags_settings($qt_init) {
+    public function quicktags_settings() {
 
-        // 仅删除指定 post 类型上的按钮
-        if (!post_type_supports($this->get_post_type(), WPComMarkdown::POST_TYPE_SUPPORT)) {
-            return $qt_init;
-        }
-
-        $qt_init['buttons'] = '';
+	    $qt_init['buttons'] = 'strong,em,link,block,del,img,ul,ol,li,code,more,spell,close,fullscreen';
 
         return $qt_init;
     }

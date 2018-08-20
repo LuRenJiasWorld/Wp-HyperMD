@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "WordPress Markdown Editor",
   "scripts": {
-    "postinstall": "gulp copy-assets",
+    "copy assets": "gulp copy-assets",
     "minify": "gulp minify",
     "clean assets": "gulp clean-assets",
     "watch": "gulp watch"
@@ -21,13 +21,11 @@
     "url": "https://github.com/JaxsonWang/Wp-HyperMD/issues"
   },
   "homepage": "https://iiong.com",
-  "dependencies": {
-    "codemirror": "^5.39.0",
+  "devDependencies": {
     "del": "^3.0.0",
-    "font-awesome": "^4.7.0",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "^5.0.0",
-    "gulp-clean-css": "^3.9.2",
+    "gulp-clean-css": "^3.10.0",
     "gulp-clone": "2.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
@@ -35,17 +33,29 @@
     "gulp-imagemin": "^4.1.0",
     "gulp-merge": "^0.1.1",
     "gulp-plumber": "^1.2.0",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "gulp-rev": "^8.1.1",
     "gulp-rimraf": "^0.2.2",
     "gulp-sequence": "1.0.0",
     "gulp-sourcemaps": "2.6.4",
-    "gulp-uglify": "^3.0.0",
-    "gulp-watch": "5.0.0",
-    "hypermd": "^0.3.6",
+    "gulp-uglify": "^3.0.1",
+    "gulp-watch": "^5.0.1",
     "merge2": "^1.2.1",
-    "requirejs": "^2.3.5",
     "run-sequence": "^2.2.1"
+  },
+  "optionalDependencies": {
+    "requirejs": "^2.3.5",
+    "codemirror": "^5.39.2",
+    "hypermd": "^0.3.10",
+    "emojione": "^3.1.6",
+    "flowchart.js": "^1.11.2",
+    "katex": "^0.10.0-alpha",
+    "marked": "^0.5.0",
+    "mathjax": "^2.7.0",
+    "mermaid": "^8.0.0-rc.8",
+    "turndown": "^4.0.1",
+    "turndown-plugin-gfm": "^1.0.1",
+    "twemoji": "^11.0.0"
   }
 }

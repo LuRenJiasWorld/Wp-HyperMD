@@ -12,28 +12,19 @@ if (requirejs) requirejs.config({
     paths: {
         // HyperMD is not from node_modules nor CDN:
         // "hypermd": "./",
-        "hypermd": demo_page_baseurl + "./",
+        "hypermd": demo_page_baseurl + ".",
     },
 
-    // Remove `packages` if you occur errors with CDN
-    packages: [
-        { name: 'codemirror', main: 'lib/codemirror.js' },
-        { name: 'mathjax', main: 'MathJax.js' },
-        { name: 'katex', main: 'dist/katex.min.js' },
-        { name: 'marked', main: 'lib/marked.js' },
-        { name: 'turndown', main: 'lib/turndown.browser.umd.js' },
-        { name: 'turndown-plugin-gfm', main: 'dist/turndown-plugin-gfm.js' },
-        { name: 'emojione', main: 'lib/js/emojione.min.js' },
-        { name: 'twemoji', main: '2/twemoji.amd.js' },
-    ],
+    // Remove this line if you occur errors with CDN
+    packages: requirejs_packages, // see: requirejs_packages.js
+
     waitSeconds: 15
 })
 
 require([
-    ///////////////////////////////////////
-    /// Core! Load them first!          ///
-    ///////////////////////////////////////
-
+    /**
+     * 核心加载
+     */
     'codemirror/lib/codemirror',
     'hypermd/core',
 
@@ -41,7 +32,7 @@ require([
     /// CodeMirror                      ///
     ///////////////////////////////////////
 
-    // Code Highlighting
+    // 代码高亮
     "codemirror/mode/htmlmixed/htmlmixed", // for embedded HTML
     "codemirror/mode/stex/stex", // for Math TeX Formular
     "codemirror/mode/yaml/yaml", // for Front Matters
@@ -50,42 +41,42 @@ require([
     //       addon "mode-loader" can load modes automatically if configured properly
     'codemirror/mode/javascript/javascript',  // eg. javascript
 
-    ///////////////////////////////////////
-    /// HyperMD modules                 ///
-    ///////////////////////////////////////
+    /**
+     * HyperMD模块
+     */
 
-    'hypermd/mode/hypermd', // ESSENTIAL
+    'hypermd/mode/hypermd', // 必要
 
-    'hypermd/addon/hide-token',
+    'hypermd/addon/click',
     'hypermd/addon/cursor-debounce',
     'hypermd/addon/fold',
-    'hypermd/addon/fold-math',
-    'hypermd/addon/fold-html',
+    'hypermd/addon/fold-code',
     'hypermd/addon/fold-emoji',
-    'hypermd/addon/read-link',
-    'hypermd/addon/click',
+    'hypermd/addon/fold-html',
+    'hypermd/addon/fold-math',
+    'hypermd/addon/hide-token',
     'hypermd/addon/hover',
-    'hypermd/addon/paste',
     'hypermd/addon/insert-file',
     'hypermd/addon/mode-loader',
+    'hypermd/addon/paste',
+    'hypermd/addon/read-link',
+    'hypermd/addon/skeleton',
     'hypermd/addon/table-align',
 
     'hypermd/keymap/hypermd',
 
-    /////////////////////////////////////////////
-    /// PowerPack with third-party libraries  ///
-    /////////////////////////////////////////////
-
+    /**
+     * 使用 PowerPack 和各种第三方库来增强 HyperMD 功能
+     * 具体可用列表请参考文档，或者 demo/index.js
+     */
+    'hypermd/powerpack/fold-code-with-flowchart',
+    'hypermd/powerpack/fold-code-with-mermaid',
     'hypermd/powerpack/fold-emoji-with-emojione',
-    // 'hypermd/powerpack/fold-emoji-with-twemoji',
-
-    'hypermd/powerpack/insert-file-with-smms',
-
-    'hypermd/powerpack/hover-with-marked',
-
+    'hypermd/powerpack/fold-emoji-with-twemoji',
     'hypermd/powerpack/fold-math-with-katex',
-    // 'hypermd/powerpack/fold-math-with-mathjax',
-
+    'hypermd/powerpack/fold-math-with-mathjax',
+    'hypermd/powerpack/hover-with-marked',
+    'hypermd/powerpack/insert-file-with-smms',
     'hypermd/powerpack/paste-with-turndown',
     'turndown-plugin-gfm',
 
@@ -146,17 +137,20 @@ require([
     }
 })
 
-var allowDirectOpen = /directOpen/.test(window.location.search)
+var demoPageConfig = {
+    directOpen: /directOpen/.test(window.location.search),
+    mathPreview: true,
+}
 
 function clickHandler(info, cm) {
     if (info.type === "link" || info.type === "url") {
         var url = info.url
-        if ((allowDirectOpen || info.ctrlKey || info.altKey) && !/^http/i.test(url) && /\.(?:md|markdown)$/.test(url.replace(/[?#].*$/, ''))) {
+        if ((demoPageConfig.directOpen || info.ctrlKey || info.altKey) && !/^http/i.test(url) && /\.(?:md|markdown)$/.test(url.replace(/[?#].*$/, ''))) {
             // open a link whose URL is *.md with ajax_load_file
             // and supress HyperMD default behavoir
             load_and_update_editor(url) // see index2.js
             return false
-        } else if (allowDirectOpen && url) {
+        } else if (demoPageConfig.directOpen && url) {
             window.open(url)
             return false
         } else if (/^\[(?:Try out|试试看)\]$/i.test(info.text)) {
