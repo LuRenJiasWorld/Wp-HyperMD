@@ -1,13 +1,10 @@
 (function (doc, win, wphypermd, wp) {
     //1. 配置 RequireJS
     requirejs.config({
-        baseUrl: '//cdn.jsdelivr.net/npm/',
-        //baseUrl: wphypermd.hypermdURL + '/assets/',
-        // paths: {
-        //     //本地资源
-        //     "hypermd": '//cdn.jsdelivr.net/npm/'
-        // },
+        //baseUrl: '//cdn.jsdelivr.net/npm/',
+        baseUrl: wphypermd.hypermdURL + '/assets/',
         packages: [
+            //AMD无法载入，需要手动加载mermaid
             {name: 'hypermd', main: 'everything.js'},
             {name: 'codemirror', main: 'lib/codemirror.js'},
             {name: 'mathjax', main: 'MathJax.js'},
@@ -16,11 +13,7 @@
             {name: 'turndown', main: 'lib/turndown.browser.umd.js'},
             {name: 'turndown-plugin-gfm', main: 'dist/turndown-plugin-gfm.js'},
             {name: 'emojione', main: 'lib/js/emojione.min.js'},
-            {name: 'twemoji', main: '2/twemoji.amd.js'},
-            {name: 'flowchart.js', main: 'release/flowchart.min.js'},
-            {name: 'Raphael', main: 'raphael.min.js'}, // stupid
-            {name: 'raphael', main: 'raphael.min.js'}
-            //{name: 'mermaid', main: 'dist/mermaid.js'} // AMD无法载入，需要手动加载mermaid
+            {name: 'twemoji', main: '2/twemoji.amd.js'}
         ],
         waitSeconds: 15
     });
@@ -62,8 +55,6 @@
          */
         //turndown插件 - 添加删除线和表格支持
         'turndown-plugin-gfm',
-        //流程图：https://laobubu.net/HyperMD/docs/examples/flowchart.html
-        // 'hypermd/powerpack/fold-code-with-flowchart',
         //mermaid：https://laobubu.net/HyperMD/docs/examples/mermaid.html
          'hypermd/powerpack/fold-code-with-mermaid',
         //emojione表情
@@ -102,7 +93,7 @@
                 math: false,  // 数学公式
                 table: true, // 表格
                 toc: false, // 文章目录
-                emoji: false, // Emoji表情
+                emoji: false // Emoji表情
 
             },
             hmdModeLoader: '~codemirror/', // 自动加载代码突出显示模式
@@ -117,13 +108,19 @@
                 link: true,
                 math: true,
                 html: false
-            }
+            },
         });
 
-        // 重设高度
+        //重设高度
         wpeditor.setSize(null, "640px");
-        // 聚焦编辑器
-        //wpeditor.focus();
+        //聚焦编辑器
+        wpeditor.focus();
+
+        //实时监听编辑器内容，将内容更新到wpContent的value值
+        //修复F5丢失数据的问题
+        wpeditor.on('change', function (editor) {
+            wpContent.value = editor.getValue();
+        });
 
         // WP Media module支持
         var original_wp_media_editor_insert = wp.media.editor.insert;

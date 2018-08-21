@@ -6,3 +6,5 @@ vendor/
 composer.lock
 yarn.lock
 languages/*.mo
+assets/Config/*.min.js
+assets/Config/*.min.js.map

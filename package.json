@@ -22,6 +22,7 @@
   },
   "homepage": "https://iiong.com",
   "devDependencies": {
+    "browser-sync": "^2.24.6",
     "del": "^3.0.0",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "^5.0.0",
@@ -45,16 +46,16 @@
     "run-sequence": "^2.2.1"
   },
   "optionalDependencies": {
-    "requirejs": "^2.3.5",
     "codemirror": "^5.39.2",
-    "hypermd": "^0.3.10",
     "emojione": "^3.1.6",
     "flowchart.js": "^1.11.2",
+    "hypermd": "^0.3.10",
     "katex": "^0.10.0-alpha",
     "marked": "^0.5.0",
     "mathjax": "^2.7.0",
     "mermaid": "^8.0.0-rc.8",
-    "turndown": "^4.0.1",
+    "requirejs": "^2.3.5",
+    "turndown": "^5.0.0",
     "turndown-plugin-gfm": "^1.0.1",
     "twemoji": "^11.0.0"
   }

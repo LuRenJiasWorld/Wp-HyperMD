@@ -48,16 +48,18 @@ class Controller {
     public function enqueue_scripts() {
 
         //JavaScript - Mermaid
-        wp_enqueue_script('Mermaid', '//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', array(), $this->version, true);
+        //wp_enqueue_script('Mermaid', '//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', array(), $this->version, true);
+        wp_enqueue_script('Mermaid', CAT_HYPERMD_URL . '/assets/Mermaid/dist/mermaid.min.js', array(), $this->version, true);
 
 	    //JavaScript - Require
-        wp_enqueue_script('Require', '//cdn.jsdelivr.net/npm/requirejs/require.min.js', array(), $this->version, true);
+        //wp_enqueue_script('Require', '//cdn.jsdelivr.net/npm/requirejs/require.min.js', array(), $this->version, true);
+        wp_enqueue_script('Require', CAT_HYPERMD_URL . '/assets/Requirejs/require.min.js', array(), $this->version, true);
 
         //JavaScript - Patch Require
-        wp_enqueue_script('Patch', CAT_HYPERMD_URL . '/assets/src/Config/Patch.js', array('Require'), $this->version, true);
+        wp_enqueue_script('Patch', CAT_HYPERMD_URL . '/assets/Config/Patch.js', array('Require'), $this->version, true);
 
         //JavaScript - Config
-        wp_enqueue_script('HyperMD', CAT_HYPERMD_URL . '/assets/src/Config/HyperMD.js', array('Patch'), $this->version, true);
+        wp_enqueue_script('HyperMD', CAT_HYPERMD_URL . '/assets/Config/HyperMD.js', array('Patch'), $this->version, true);
 
 
         wp_localize_script('HyperMD', 'WPHyperMD', array(
