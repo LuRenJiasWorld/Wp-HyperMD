@@ -450,12 +450,13 @@ class WPMarkdownParser extends MarkdownExtra {
 
 	/**
 	 * 获取选项值
-	 * @param $data
+	 * @param string $option_data 选项值
 	 *
 	 * @return mixed
 	 */
-	public function get_opt($data) {
+	public function get_opt($option_data) {
 		$options = get_option( $this->plugin_slug );
-		return $options[$data];
+		$val = !empty($options[$option_data]) ? $options[$option_data] : 'off';
+		return $val;
 	}
 }

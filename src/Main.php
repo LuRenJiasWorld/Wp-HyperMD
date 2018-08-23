@@ -3,6 +3,11 @@
 namespace HyperMD;
 
 use HyperMDAdmin\Controller as ControllerAdmin;
+use HyperMDApp\ImagePaste;
+use HyperMDApp\KaTeX;
+use HyperMDApp\MathJax;
+use HyperMDApp\Mermaid;
+use HyperMDApp\Twemoji;
 use HyperMDFront\Controller as ControllerFront;
 use HyperMDApp\WPComMarkdown;
 use HyperMDApp\PrismJSAuto;
@@ -82,23 +87,22 @@ class Main {
         //$this->define_public_hooks();
     }
 
-    /**
-     * Define the locale for this plugin for internationalization.
-     *
-     * Uses the Internationalization class in order to set the domain and to register the hook
-     * with WordPress.
-     *
-     * @since    1.0.0
-     * @access   private
-     */
-    private function set_locale() {
+	/**
+	 * 国际化
+	 *
+	 * 使用 Internationalization 类来设置域并使用WordPress注册钩子
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function set_locale() {
 
-        $plugin_i18n = new Internationalization();
-        $plugin_i18n->set_domain($this->text_domain);
+		$plugin_i18n = new Internationalization();
+		$plugin_i18n->set_domain($this->get_text_domain());
 
-        $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
+		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 
-    }
+	}
 
     /**
      * Register all of the hooks related to the admin area functionality
@@ -109,7 +113,7 @@ class Main {
      */
     private function define_admin_hooks() {
 
-        $plugin_admin = new ControllerAdmin($this->get_plugin_name(), $this->get_version(), $this->get_text_domain());
+        $plugin_admin = new ControllerAdmin($this->get_plugin_name(), $this->get_version(), $this->get_text_domain(), $this->get_plugin_slug());
 
         //$this->loader->add_action('edit_page_form', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('edit_page_form', $plugin_admin, 'enqueue_scripts');
@@ -157,10 +161,18 @@ class Main {
         new PluginMeta($this->get_text_domain());
         // 实现欢迎页面提醒
         new Guide($this->get_text_domain());
-        // 根据选项开启相关选项
+        // 任务列表
         new TaskList();
 
-        $this->get_option('highlight_mode_auto', 'hypermd_syntax_highlighting') == 'on' ? new PrismJSAuto( $this->get_plugin_slug() ) : null;
+	    $this->get_opt( 'enable_image_paste' ) == 'local' ? new ImagePaste() : null;
+
+	    $this->get_opt( 'enable_highlight' ) == 'on' ? new PrismJSAuto( $this->get_plugin_slug() ) : null;
+
+	    $this->get_opt( 'math_type' ) == 'mathjax' ? new MathJax() : new KaTeX();
+
+	    $this->get_opt( 'enable_emoji' ) == 'on' && $this->get_opt( 'enhance_emoji' ) == 'on' ? new Twemoji( $this->get_plugin_slug() ) : null;
+
+	    $this->get_opt( 'enable_mermaid' ) == 'on' ? new Mermaid( $this->get_plugin_slug() ) : null;
 
         return;
     }
@@ -215,23 +227,16 @@ class Main {
         return $this->text_domain;
     }
 
-    /**
-     * 获取字段值
-     *
-     * @param string $option  字段名称
-     * @param string $section 字段名称分组
-     * @param string $default 没搜索到返回空
-     *
-     * @return mixed
-     */
-    public function get_option($option, $section, $default = '') {
+	/**
+	 * 获取选项值
+	 * @param string $option_data 选项值
+	 *
+	 * @return mixed
+	 */
+	public function get_opt($option_data) {
+		$options = get_option( $this->get_plugin_slug() );
+		$val = !empty($options[$option_data]) ? $options[$option_data] : 'off';
+		return $val;
+	}
 
-        $options = get_option($section);
-
-        if (isset($options[$option])) {
-            return $options[$option];
-        }
-
-        return $default;
-    }
 }

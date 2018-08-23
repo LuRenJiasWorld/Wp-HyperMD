@@ -25,7 +25,9 @@ class PrismJSAuto {
 		$copy_clipboard = $this->get_opt( 'copy_clipboard' ) == 'on' ? true : false; //粘贴
 		if($show_language == true) {
 			$toolbar = true;
-		}
+		} else {
+		    $toolbar = false;
+        }
 		$prism_plugins  = array(
 			'autoloader' => array(
 				'js'  => true,
@@ -52,7 +54,6 @@ class PrismJSAuto {
 		$prism_scripts  = array();
 
 		$prism_scripts['prism-core-js'] = $prism_base_url . '/components/prism-core.min.js';
-		//$prism_scripts['prism-language-default-js'] = $prism_base_url . '/prism.min.js';
 
 		if ( empty( $prism_theme ) || $prism_theme == 'default' ) {
 			$prism_styles['prism-theme-default'] = $prism_base_url . '/themes/prism.min.css';
@@ -97,12 +98,13 @@ class PrismJSAuto {
 
 	/**
 	 * 获取选项值
-	 * @param $data
+	 * @param string $option_data 选项值
 	 *
 	 * @return mixed
 	 */
-	public function get_opt($data) {
+	public function get_opt($option_data) {
 		$options = get_option( $this->plugin_slug );
-		return $options[$data];
+		$val = !empty($options[$option_data]) ? $options[$option_data] : 'off';
+		return $val;
 	}
 }

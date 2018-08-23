@@ -26,7 +26,6 @@ gulp.task('minify', function () {
     return gulp.src([
         './assets/Config/HyperMD.js',
         './assets/Config/Patch.js'])
-        .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(uglify().on('error', function(e){
             console.log(e);
         })) //压缩
@@ -37,7 +36,6 @@ gulp.task('minify', function () {
             }
         }))
         .pipe(rename({suffix: '.min'})) //重命名
-        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./assets/Config/'));
 });
 
@@ -75,6 +73,12 @@ gulp.task('copy-assets', function () {
 
     // 复制 turndown-plugin-gfm 文件夹
     gulp.src('./node_modules/turndown-plugin-gfm/**/*').pipe(gulp.dest('./assets/Turndown-Plugin-GFM/'));
+
+    // 复制 flowchart.js 文件夹
+    gulp.src('./node_modules/flowchart.js/**/*').pipe(gulp.dest('./assets/FlowChart.js/'));
+
+    // 复制 flowchart.js 文件夹
+    gulp.src('./node_modules/raphael/**/*').pipe(gulp.dest('./assets/Raphael/'));
 });
 
 // 删除发布资源文件
@@ -90,7 +94,9 @@ gulp.task('clean-assets', function () {
         './assets/EmojiOne/',
         './assets/Twemoji/',
         './assets/Turndown/',
-        './assets/Turndown-Plugin-GFM/'
+        './assets/Turndown-Plugin-GFM/',
+        './assets/FlowChart.js/',
+        './assets/Raphael/'
     ]);
 });
 

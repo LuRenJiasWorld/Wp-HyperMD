@@ -1,135 +1,149 @@
-# Translation of WordPress - 4.8.x in LANGUAGE NAME
-# This file is distributed under the same license as the WordPress - 4.8.x package.
+# Translation of Plugins - WP-HyperMD - Development (trunk) in Chinese (China)
+# This file is distributed under the same license as the Plugins - WP-HyperMD - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: YYYY-MM-DD HR:MI:SE+ZONE\n"
+"PO-Revision-Date: 2018-08-18 13:07:31+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: GlotPress/2.4.0-alpha\n"
-"Language: LANGUAGE SHORT CODE\n"
-"Project-Id-Version: WordPress - 4.8.x\n"
+"Language: zh_CN\n"
+"Project-Id-Version: Plugins - WP-HyperMD - Development (trunk)\n"
 
-msgid "Basic Settings"
+msgid "Basic"
 msgstr "基本设置"
 
-msgid "Syntax Highlighting Settings"
-msgstr "语法高亮设置"
-
-msgid "Use Markdown For Posts And Pages"
-msgstr "在文章和页面使用Markdown写作"
-
 msgid "Use Markdown For Comments"
-msgstr "使评论支持Markdown写作"
+msgstr "使评论支持Markdown"
 
-msgid "Go"
-msgstr "跳转"
+msgid "ImagePaste/Drag-Drop"
+msgstr "图像粘贴/拖拽上传"
 
-msgid "Auto load mode"
-msgstr "自动加载"
+msgid "Hide Token"
+msgstr "隐藏标签"
+
+msgid "Enabled Hover"
+msgstr "悬浮信息"
+
+msgid "Enabled Click"
+msgstr "链接跳转"
+
+msgid "Enabled Paste"
+msgstr "粘贴转换"
+
+msgid "Table Align"
+msgstr "表格对齐"
+
+msgid "Syntax Highlighting"
+msgstr "语法高亮"
+
+msgid "Enable Syntax Highlighting"
+msgstr "启用代码语法高亮"
 
 msgid "Line Numbers"
 msgstr "代码行号"
 
+msgid "Show Code Language"
+msgstr "语法类型"
+
+msgid "Copy To Clipboard"
+msgstr "代码复制"
+
 msgid "PrismJS Syntax Highlight Style"
-msgstr "主题风格"
+msgstr "高亮风格"
 
-msgid "Syntax highlight theme style"
-msgstr "语法高亮主题风格"
+msgid "Customize Style Library"
+msgstr "自定义高亮风格"
 
-msgid "Settings"
-msgstr "设置"
+msgid "Get More <a href=\"https://github.com/JaxsonWang/Prism.js-Style\" target=\"_blank\" rel=\"nofollow\">Theme Style</a>"
+msgstr "获取更多<a href=\"https://github.com/JaxsonWang/Prism.js-Style\" target=\"_blank\" rel=\"nofollow\">高亮风格</a>"
 
-msgid "Github"
-msgstr "插件源码"
+msgid "Enable Emoji"
+msgstr "启用Emoji"
 
-msgid "Blog"
-msgstr "我的博客"
+msgid "Enhance mode"
+msgstr "增强模式"
+
+msgid "Math"
+msgstr "数学排版"
+
+msgid "Math Type"
+msgstr "数学排版类型"
+
+msgid "Mermaid"
+msgstr "绘图设置"
+
+msgid "Enable Mermaid"
+msgstr "启用"
+
+msgid "WP HyperMD Settings"
+msgstr "WP HyperMD设置"
+
+msgid "Hi! Welcome!"
+msgstr "欢迎使用WP HyperMD插件！"
+
+msgid "Options"
+msgstr "选项"
+
+msgid "Go"
+msgstr "跳转"
+
+msgid "Auto show/hide markdown tokens like `##` or `*`"
+msgstr "自动显示/隐藏Markdown标记，如`##`或`*`"
+
+msgid "When mouse hovers on a link or footnote ref, shows related footnote"
+msgstr "当鼠标悬停在链接或脚注参考上时，会显示相关的脚注"
+
+msgid "Click to open links / jump to footnotes / toggle TODOs, and more"
+msgstr "点击打开链接/跳转到脚注/切换TODO等"
+
+msgid "Convert content to Markdown before pasting"
+msgstr "在粘贴之前将内容转换为Markdown"
+
+msgid "Align Table Columns"
+msgstr "表格对齐"
 
 msgid "Issues"
 msgstr "提交问题"
 
+msgid "Github"
+msgstr "Github源码"
+
 msgid "Docs"
 msgstr "使用文档"
 
-msgid " Options"
-msgstr "选项"
+msgid "Blog"
+msgstr "我的博客"
 
-msgid "Welcome to the new version of WordPress HyperMD editor, please go to WP HyperMD to configure related settings!"
-msgstr "欢迎使用新版本WordPress HyperMD编辑器，请在右边的WP HyperMD选项配置相关设置！"
+msgid "Settings"
+msgstr "设置"
 
-msgid "Advanced Settings"
-msgstr "高级设置"
+msgid "Default"
+msgstr "默认"
 
-msgid "Debugger"
-msgstr "调试信息"
+msgid "Local Media"
+msgstr "本地媒体库"
 
-msgid "Info"
-msgstr "获取信息（如果出现问题，请把调试信反馈给作者）"
-
-msgid "Operating System"
-msgstr "系统环境"
-
-msgid "Operating Environment"
-msgstr "运行环境"
-
-msgid "PHP Version"
-msgstr "PHP版本"
-
-msgid "PHP Operating Mode"
-msgstr "PHP运行环境"
-
-msgid "Browser Information"
-msgstr "浏览器信息"
-
-msgid "WordPress Version"
-msgstr "WordPress版本"
-
-msgid "WP HyperMD Version"
-msgstr "插件版本"
-
-msgid "jQuery Version"
-msgstr "jQuery版本"
-
-msgid "Current Roles"
-msgstr "当前用户权限"
-
-msgid "Site URL"
-msgstr "WordPress地址"
-
-msgid "Home URL"
-msgstr "站点地址"
+msgid "Disable"
+msgstr "禁用"
 
 msgid "Use Markdown for comments."
-msgstr "使评论支持Markdown写作"
+msgstr "使评论支持Markdown"
 
 msgid "Learn more about Markdown."
-msgstr "了解更多关于Markdown的信息"
+msgstr "学习更多关于Markdown语法"
 
-msgid "Get More <a href=\"https://github.com/JaxsonWang/Prism.js-Style\" target=\"_blank\" rel=\"nofollow\">Theme Style</a>"
-msgstr "获取<a href=\"https://github.com/JaxsonWang/Prism.js-Style\" target=\"_blank\" rel=\"nofollow\">主题风格</a>"
+msgid "Welcome to the new version of WordPress HyperMD editor, please go to WP HyperMD to configure related settings!"
+msgstr "欢迎使用新版本WP HyperMD editor编辑器，请在右边的WP HyperMD选项配置相关设置！"
 
-msgid "Show Language"
-msgstr "显示代码言语"
-
-msgid "Perhaps this is the best and most perfect Markdown editor in WordPress"
-msgstr "或许这是一个WordPress中最绚丽的Markdown编辑器"
-
-msgid "Donate"
-msgstr "捐赠"
-
-msgid "It is hard to continue development and support for this plugin without contributions from users like you. If you enjoy using WP-HyperMD and find it useful, please consider making a donation. Your donation will help encourage and support the plugin’s continued development and better user support.Thank You!"
-msgstr "没有像你这样的用户的贡献，很难继续开发和支持这个插件。如果你喜欢使用WP-HyperMD并且觉得有用，请考虑捐款！您的捐款将有助于鼓励和支持插件的持续开发和更好的用户支持，谢谢！"
-
-msgid "Copy to Clipboard"
-msgstr "代码粘贴"
-
-msgid "Hide Ads"
-msgstr "隐藏捐赠信息"
-
-msgid "Customize Style Library"
-msgstr "自定义主题风格文件地址"
-
-msgid "Local Resources"
-msgstr "本地资源"
+msgid ""
+"More info: <a rel=\"nofollow\" target=\"_blank\" href=\"https://mermaidjs."
+"github.io/mermaidAPI.html\">MermaidAPI Doc</a> and <a href=\"https://github."
+"com/knsv/mermaid/blob/master/src/mermaidAPI.js\" target=\"_blank\" rel="
+"\"nofollow\">MermaidAPI.js</a>"
+msgstr ""
+"更多配置选项请查看：<a rel=\"nofollow\" target=\"_blank\" href=\"https://"
+"mermaidjs.github.io/mermaidAPI.html\">MermaidAPI Doc</a> 和 <a href="
+"\"https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js\" target="
+"\"_blank\" rel=\"nofollow\">MermaidAPI.js</a>"

@@ -6,21 +6,23 @@ class Settings {
 	private $plugin_name;
 	private $plugin_slug;
 	private $verison;
-	private $textdomain;
+	private $text_domain;
 	private $options;
 	private $settings;
 
-	public function __construct( $plugin_name, $plugin_slug, $version, $textdomain ) {
+	public function __construct( $plugin_name, $plugin_slug, $version, $text_domain ) {
 		$this->plugin_slug = $plugin_slug;
 		$this->plugin_name = $plugin_name;
 		$this->verison     = $version;
-		$this->textdomain  = str_replace( '_', '-', $plugin_slug );
+		$this->text_domain = $text_domain;
 
 		// 初始化设置
 		add_action( 'admin_init', array( $this, 'init' ) );
 
 		// 将设置页面添加到菜单
 		add_action( 'admin_menu', array( $this, 'add_menu_item' ) );
+
+		add_action( 'admin_enqueue_scripts',array($this,'hyperMDCodeMirror') );
 	}
 
 	/**
@@ -40,7 +42,7 @@ class Settings {
 	 * @return void
 	 */
 	public function add_menu_item() {
-		add_plugins_page( $this->plugin_name . __( ' Options', $this->textdomain ), $this->plugin_name, 'manage_options', $this->plugin_slug, array( $this, 'settings_page' ) );
+		add_plugins_page( $this->plugin_name . __( ' Options', $this->text_domain ), $this->plugin_name, 'manage_options', $this->plugin_slug, array( $this, 'settings_page' ) );
 	}
 
 	/**
@@ -49,62 +51,142 @@ class Settings {
 	 * @return array 在设置页面上显示的字段
 	 */
 	private function settings_fields() {
+	    $mermaidConfig = '{
+    "theme": "dark",
+    "logLevel": 5,
+    "arrowMarkerAbsolute": false,
+    "startOnLoad": true,
+    "flowchart": {
+        "htmlLabels": true,
+        "curve": "linear"
+    },
+    "sequence": {
+        "diagramMarginX": 50,
+        "diagramMarginY": 10,
+        "actorMargin": 50,
+        "width": 150,
+        "height": 65,
+        "boxMargin": 10,
+        "boxTextMargin": 5,
+        "noteMargin": 10,
+        "messageMargin": 35,
+        "mirrorActors": true,
+        "bottomMarginAdj": 1,
+        "useMaxWidth": true
+    },
+    "gantt": {
+        "titleTopMargin": 25,
+        "barHeight": 20,
+        "barGap": 4,
+        "topPadding": 50,
+        "leftPadding": 75,
+        "gridLineStartPadding": 35,
+        "fontSize": 11,
+        "fontFamily": "\"Open-Sans\", \"sans-serif\"",
+        "numberSectionStyles": 4,
+        "axisFormat": "%Y-%m-%d"
+    },
+    "class": {},
+    "git": {}
+}';
+
 
 		$settings['basic'] = array(
-			'title'       => __( 'Basic Settings', $this->textdomain ),
-			'description' => __( '', $this->textdomain ),
+			'title'       => __( 'Basic', $this->text_domain ),
+			'description' => __( '', $this->text_domain ),
 			'fields'      => array(
 				array(
-					'id'          => 'support_comment',
-					'label'       => __( 'Use Markdown For Posts And Pages', $this->textdomain ),
-					'description' => '<a href="' . admin_url( "options-writing.php" ) . '" target="_blank">' . __( 'Go', $this->textdomain ) . '</a>',
+					'id'          => 'support_post_page',
+					'label'       => __( 'Use Markdown For Comments', $this->text_domain ),
+					'description' => '<a href="' . admin_url( "options-discussion.php#wpcom_publish_comments_with_markdown" ) . '" target="_blank">' . __( 'Go', $this->text_domain ) . '</a>',
 					'type'        => 'html'
 				),
 				array(
-					'id'          => 'support_post_page',
-					'label'       => __( 'Use Markdown For Comments', $this->textdomain ),
-					'description' => '<a href="' . admin_url( "options-discussion.php#wpcom_publish_comments_with_markdown" ) . '" target="_blank">' . __( 'Go', $this->textdomain ) . '</a>',
-					'type'        => 'html'
-				)
+					'id'          => 'enable_image_paste',
+					'label'       => __( 'ImagePaste/Drag-Drop', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
+					'type'        => 'select',
+					'options'     => array(
+						'disable' => 'Disable',
+						'local'   => 'Local Media',
+						'smms'    => 'https://sm.ms'
+					),
+					'default'     => 'disable'
+				),
+				array(
+					'id'          => 'hide_token',
+					'label'       => __( 'Hide Token', $this->text_domain ),
+					'description' => __( 'Auto show/hide markdown tokens like `##` or `*`', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'enabled_hover',
+					'label'       => __( 'Enabled Hover', $this->text_domain ),
+					'description' => __( 'When mouse hovers on a link or footnote ref, shows related footnote', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'enabled_click',
+					'label'       => __( 'Enabled Click', $this->text_domain ),
+					'description' => __( 'Click to open links / jump to footnotes / toggle TODOs, and more', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'enabled_paste',
+					'label'       => __( 'Enabled Paste', $this->text_domain ),
+					'description' => __( 'Convert content to Markdown before pasting', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'table_align',
+					'label'       => __( 'Table Align', $this->text_domain ),
+					'description' => __( 'Align Table Columns', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
 			)
 		);
 
-		$settings['hypermd_syntax_highlighting'] = array(
-			'title'       => __( 'Syntax Highlighting', $this->textdomain ),
-			'description' => __( '', $this->textdomain ),
+		$settings['highlight'] = array(
+			'title'       => __( 'Syntax Highlighting', $this->text_domain ),
+			'description' => __( '', $this->text_domain ),
 			'fields'      => array(
 				array(
 					'id'          => 'enable_highlight',
-					'label'       => __( 'Enable Syntax Highlighting', $this->textdomain ),
-					'description' => __( '', $this->textdomain ),
+					'label'       => __( 'Enable Syntax Highlighting', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
 					'type'        => 'checkbox',
 					'default'     => 'off'
 				),
 				array(
 					'id'          => 'line_numbers',
-					'label'       => __( 'Line Numbers', $this->textdomain ),
-					'description' => __( '', $this->textdomain ),
+					'label'       => __( 'Line Numbers', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
 					'type'        => 'checkbox',
 					'default'     => 'off'
 				),
 				array(
 					'id'          => 'show_language',
-					'label'       => __( 'Show Code Language', $this->textdomain ),
-					'description' => __( '', $this->textdomain ),
+					'label'       => __( 'Show Code Language', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
 					'type'        => 'checkbox',
 					'default'     => 'off'
 				),
 				array(
 					'id'          => 'copy_clipboard',
-					'label'       => __( 'Copy To Clipboard', $this->textdomain ),
-					'description' => __( '', $this->textdomain ),
+					'label'       => __( 'Copy To Clipboard', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
 					'type'        => 'checkbox',
 					'default'     => 'off'
 				),
 				array(
 					'id'          => 'highlight_library_style',
-					'label'       => __( 'PrismJS Syntax Highlight Style', $this->textdomain ),
-					'description' => __( '', $this->textdomain ),
+					'label'       => __( 'PrismJS Syntax Highlight Style', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
 					'type'        => 'select',
 					'options'     => array(
 						'default'        => 'Default',
@@ -115,17 +197,79 @@ class Settings {
 						'coy'            => 'Coy',
 						'solarizedlight' => 'Solarized Light',
 						'tomorrow'       => 'Tomorrow Night',
-						'customize'      => __( 'Customize Style Library', $this->textdomain )
+						'customize'      => __( 'Customize Style Library', $this->text_domain )
 					),
 					'default'     => 'default'
 				),
 				array(
 					'id'          => 'customize_my_style',
-					'label'       => __( 'Customize Style Library', $this->textdomain ),
-					'description' => __( 'Get More <a href="https://github.com/JaxsonWang/Prism.js-Style" target="_blank" rel="nofollow">Theme Style</a>', $this->textdomain ),
+					'label'       => __( 'Customize Style Library', $this->text_domain ),
+					'description' => __( 'Get More <a href="https://github.com/JaxsonWang/Prism.js-Style" target="_blank" rel="nofollow">Theme Style</a>', $this->text_domain ),
 					'type'        => 'text',
 					'default'     => '',
-					'placeholder' => __( 'nothing', $this->textdomain )
+					'placeholder' => __( 'nothing', $this->text_domain )
+				)
+			)
+		);
+
+		$settings['emoji'] = array(
+			'title'       => __( 'Emoji', $this->text_domain ),
+			'description' => __( '', $this->text_domain ),
+			'fields'      => array(
+				array(
+					'id'          => 'enable_emoji',
+					'label'       => __( 'Enable Emoji', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'          => 'enhance_emoji',
+					'label'       => __( 'Enhance mode', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				)
+			)
+		);
+
+		$settings['math'] = array(
+			'title'       => __( 'Math', $this->text_domain ),
+			'description' => __( '', $this->text_domain ),
+			'fields'      => array(
+				array(
+					'id'          => 'math_type',
+					'label'       => __( 'Math Type', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
+					'type'        => 'select',
+					'options'     => array(
+						'mathjax' => 'MathJax',
+						'katex'   => 'KaTeX',
+						'disable' => 'Disable',
+					),
+					'default'     => 'disable'
+				),
+			)
+		);
+
+		$settings['mermaid'] = array(
+			'title'       => __( 'Mermaid', $this->text_domain ),
+			'description' => __( '', $this->text_domain ),
+			'fields'      => array(
+				array(
+					'id'          => 'enable_mermaid',
+					'label'       => __( 'Enable Mermaid', $this->text_domain ),
+					'description' => __( '', $this->text_domain ),
+					'type'        => 'checkbox',
+					'default'     => 'off'
+				),
+				array(
+					'id'    => 'mermaid_config',
+					'label'   => __( 'Mermaid Config', $this->text_domain ),
+					'description'    => __( 'More info: <a rel="nofollow" target="_blank" href="https://mermaidjs.github.io/mermaidAPI.html">MermaidAPI Doc</a> and <a href="https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js" target="_blank" rel="nofollow">MermaidAPI.js</a>', $this->text_domain ),
+					'type'    => 'textarea',
+					'default' => $mermaidConfig,
+					'placeholder' => __( '', $this->text_domain )
 				)
 			)
 		);
@@ -159,15 +303,18 @@ class Settings {
 	}
 
 	/**
-     * 获取选项值
-	 * @param $data
+	 * 获取选项值
+	 *
+	 * @param string $option_data 选项值
 	 *
 	 * @return mixed
 	 */
-	public function get_opt($data) {
-	    $options = get_option( $this->plugin_slug );
-	    return $options[$data];
-    }
+	public function get_opt( $option_data ) {
+		$options = get_option( $this->plugin_slug );
+		$val     = ! empty( $options[ $option_data ] ) ? $options[ $option_data ] : null;
+
+		return $val;
+	}
 
 	/**
 	 * 注册插件设置
@@ -320,7 +467,7 @@ class Settings {
 
 		// Validate fields, eg. don't save options if the password field is empty
 		// if ( $data['password_field'] == '' ) {
-		// 	add_settings_error( $this->plugin_slug, 'no-password', __('A password is required.', $this->textdomain), 'error' );
+		// 	add_settings_error( $this->plugin_slug, 'no-password', __('A password is required.', $this->text_domain), 'error' );
 		// 	return false;
 		// }
 
@@ -337,8 +484,8 @@ class Settings {
 		// 如果您不需要选项卡式导航，只需删除<!-- Tab navigation -->标记之间的所有内容。
 		?>
         <div class="wrap" id="<?php echo $this->plugin_slug; ?>">
-            <h2><?php _e( 'WP HyperMD Settings', $this->textdomain ); ?></h2>
-            <p><?php _e( 'Hi! Welcome!', $this->textdomain ); ?></p>
+            <h2><?php _e( 'WP HyperMD Settings', $this->text_domain ); ?></h2>
+            <p><?php _e( 'Hi! Welcome!', $this->text_domain ); ?></p>
 
             <!-- Tab navigation starts -->
             <h2 class="nav-tab-wrapper settings-tabs hide-if-no-js">
@@ -361,6 +508,33 @@ class Settings {
         </div>
 		<?php
 	}
+
+	public function hyperMDCodeMirror() {
+		wp_enqueue_script( 'code-editor' );
+		wp_enqueue_style( 'code-editor' );
+
+		$settings = wp_enqueue_code_editor( array(
+			'type' => 'json',
+		) );
+
+		// 系统禁用CodeMirror
+		if ( false === $settings ) {
+			return;
+		}
+
+		wp_add_inline_script(
+			'code-editor',
+			sprintf(
+				'jQuery( function() { jQuery("#mermaid_config").length !== 0 ? wp.codeEditor.initialize( "mermaid_config", %s ) : ""; } );',
+				wp_json_encode( $settings )
+			)
+		);
+
+		wp_add_inline_script(
+			'wp-codemirror',
+			'window.CodeMirror = wp.CodeMirror;'
+		);
+    }
 
 	/**
 	 * 打印选项卡式导航的jQuery脚本
@@ -392,7 +566,7 @@ class Settings {
                         paragraphs.eq(i).show();
                         tables.eq(i).show();
                     });
-                })
+                });
 
                 triggers.eq(0).click();
             });
