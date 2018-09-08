@@ -70,7 +70,9 @@ Empty content is the default highlight library, Go to [highlightjs] (https://hig
 
 == Changelog ==
 
-= 1.0 =
-* 第一版本
+= 1.0.1 =
 
-* Initial version
+* 修复历史上遗留下来的KaTex和代码块冲突问题 感谢[@jizhidemowang](https://github.com/jizhidemowang)代码贡献
+* 完善一些缺失的功能
+
+More changlog please see the [Github CHANGELOG.md](https://github.com/JaxsonWang/Wp-HyperMD/blob/master/CHANGELOG.md)

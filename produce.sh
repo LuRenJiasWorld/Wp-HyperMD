@@ -1,11 +1,14 @@
 #!/bin/bash
 # 删除文件(夹) - 删除其他库开发无关文件
 
-# assets/Config/src/
-rm -rf assets/Config/src/
+# assets/Config/
+rm -rf assets/Config/demo.js
+rm -rf assets/Config/HyperMD.js
+rm -rf assets/Config/Patch.js
 
 # languages/
 rm -rf languages/*.po
+rm -rf languages/*.pot
 
 # vendor/
 rm -rf vendor/bin/
@@ -25,12 +28,6 @@ rm -rf vendor/michelf/php-markdown/Michelf/Markdown.inc.php
 rm -rf vendor/michelf/php-markdown/Michelf/MarkdownExtra.inc.php
 rm -rf vendor/michelf/php-markdown/Michelf/MarkdownInterface.inc.php
 
-# vendor/jaxsonwang
-rm -rf vendor/jaxsonwang/wp-settings-api-class/.git/
-rm -rf vendor/jaxsonwang/wp-settings-api-class/.gitignore
-rm -rf vendor/jaxsonwang/wp-settings-api-class/composer.json
-rm -rf vendor/jaxsonwang/wp-settings-api-class/README.md
-
 # /
 rm -rf .git/
 rm -rf .github/
@@ -41,4 +38,7 @@ rm -rf composer.lock
 rm -rf README.md
 rm -rf CHANGELOG.md
 rm -rf produce.sh
-rm -rf node_modules/
+rm -rf package-lock.json
+rm -rf package.json
+rm -rf gulpfile.js
+rm -rf node_modules
