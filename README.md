@@ -29,25 +29,25 @@ WordPress 插件库[下载](https://wordpress.org/plugins/wp-hypermd/)
 
 ### 特征 Feature
 
- - [x] 支持实时预览/代码插入/代码折叠/列表插入/搜索替换/语法高亮等功能；
- - [ ] 支持 [Emoji 表情](http://www.emoji-cheat-sheet.com/)
+ - [x] 支持实时预览/语法高亮等功能；
+ - [x] 支持 [Emoji 表情](http://www.emoji-cheat-sheet.com/)
  - [x] 支持WordPress的多媒体插入
  - [ ] 支持Toc文章目录显示
  - [x] 支持GFM Task lists
- - [ ] 支持[LaTeX科学公式](https://khan.github.io/KaTeX/)
- - [ ] 支持[Mermaid](https://mermaidjs.github.io/)
- - [ ] 支持图像粘贴
+ - [x] 支持[KaTeX科学公式](https://khan.github.io/KaTeX/)或者[MathJAX科学公式](https://www.mathjax.org/)
+ - [x] 支持[Mermaid](https://mermaidjs.github.io/)
+ - [x] 支持图像粘贴
 
  ---
 
- - [x] Real-time Preview, Preformatted text/Code blocks/Tables insert, Search replace, Code syntax highlighting;
- - [ ] Support [Emoji](http://www.emoji-cheat-sheet.com/)
+ - [x] Real-time Preview, Code syntax highlighting;
+ - [x] Support [Emoji](http://www.emoji-cheat-sheet.com/)
  - [x] Support WordPress multimedia insertion
  - [ ] Support Toc
  - [x] Support GFM Task lists
- - [ ] Support [LaTeX](https://khan.github.io/KaTeX/)
- - [ ] Support [Mermaid](https://mermaidjs.github.io/)
- - [ ] Support Image Paste
+ - [x] Support [KaTeX](https://khan.github.io/KaTeX/) Or [MathJAX](https://www.mathjax.org/)
+ - [x] Support [Mermaid](https://mermaidjs.github.io/)
+ - [x] Support Image Paste
 
 ### 使用说明 ReadMe
 
@@ -64,12 +64,6 @@ WordPress 插件库[下载](https://wordpress.org/plugins/wp-hypermd/)
 ~~[MindMap](https://raw.githubusercontent.com/JaxsonWang/WP-HyperMD/doc/Example/MindMap.md)~~
  
 ### 开发 Development
-
-使用[Composer](https://getcomposer.org/)安装插件依赖文件
-
-```bash
-composer install
-```
 
 使用[npm](https://bower.io/)安装静态资源依赖文件：
 

@@ -12,11 +12,12 @@ class KaTeX {
 
 	public function __construct() {
 
-	    //单个$或者双个$$符号匹配
-		add_filter( 'the_content', array( $this, 'katex_markup_double' ), 8 );
+		//单个$或者双个$$符号匹配
 		add_filter( 'the_content', array( $this, 'katex_markup_single' ), 9 );
-		add_filter( 'comment_text', array( $this, 'katex_markup_double' ), 8 );
 		add_filter( 'comment_text', array( $this, 'katex_markup_single' ), 9 );
+
+		add_filter( 'the_content', array( $this, 'katex_markup_double' ), 8 );
+		add_filter( 'comment_text', array( $this, 'katex_markup_double' ), 8 );
 		//前端加载资源
 		add_action( 'wp_enqueue_scripts', array( $this, 'katex_enqueue_scripts' ) );
 
@@ -44,9 +45,38 @@ class KaTeX {
 		\$ # Dollar preceded by zero slashes
 		%ix';
 
+		// 初始化参数
+		$count = 0;
+		$preg = true;
+
 		foreach ( $textarr as &$element ) {
 
-		    // 跳出循环
+			//判断是否在code里面
+			if ($count > 0) {
+				++$count;
+			}
+
+			// 判断是否是<pre>然后开始计数，此时为第一行
+			if (htmlspecialchars_decode($element) == "<pre>") {
+				$count = 1;
+			}
+
+			// 当读到第三行时，判断是code标签嘛，如果是，说明是代码，则后续不进行处理
+			if ($count == 3 && strpos(htmlspecialchars_decode($element), "<code class=") === 0) {
+				$preg = false;
+			}
+
+			// 如果发现是</pre>标签，则表示代码部分结束，继续处理
+			if (htmlspecialchars_decode($element) == "</pre>") {
+				$preg = true;
+			}
+
+			// 如果在代码中，则跳出本次循环
+			if (!$preg) {
+				continue;
+			}
+
+			// 跳出循环
 			if ( '' === $element || '<' === $element[0] ) {
 				continue;
 			}
@@ -87,7 +117,36 @@ class KaTeX {
 		\$\$ # Dollar preceded by zero slashes
 		%ix';
 
+		// 初始化参数
+		$count = 0;
+		$preg = true;
+
 		foreach ( $textarr as &$element ) {
+
+			//判断是否在code里面
+			if ($count > 0) {
+				++$count;
+			}
+
+			// 判断是否是<pre>然后开始计数，此时为第一行
+			if (htmlspecialchars_decode($element) == "<pre>") {
+				$count = 1;
+			}
+
+			// 当读到第三行时，判断是code标签嘛，如果是，说明是代码，则后续不进行处理
+			if ($count == 3 && strpos(htmlspecialchars_decode($element), "<code class=") === 0) {
+				$preg = false;
+			}
+
+			// 如果发现是</pre>标签，则表示代码部分结束，继续处理
+			if (htmlspecialchars_decode($element) == "</pre>") {
+				$preg = true;
+			}
+
+			// 如果在代码中，则跳出本次循环
+			if (!$preg) {
+				continue;
+			}
 
 			// 跳出循环
 			if ( '' === $element || '<' === $element[0] ) {
