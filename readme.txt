@@ -2,8 +2,8 @@
 Contributors: 淮城一只猫
 Donate link: https://iiong.com/
 Tags: Editor,Markdown,Markdown Edit,Jetpack,PrismJS
-Requires at least: 4.9.7
-Tested up to: 4.9.7
+Requires at least: 4.9.8
+Tested up to: 5.0.1
 Stable tag: 4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -72,7 +72,7 @@ Empty content is the default highlight library, Go to [highlightjs] (https://hig
 
 = 1.0.1 =
 
-* 修复历史上遗留下来的KaTex和代码块冲突问题 感谢[@jizhidemowang](https://github.com/jizhidemowang)代码贡献
-* 完善一些缺失的功能
+* 兼容WordPress 5.0
+* KaTeX优化
 
 More changlog please see the [Github CHANGELOG.md](https://github.com/JaxsonWang/Wp-HyperMD/blob/master/CHANGELOG.md)

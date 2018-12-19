@@ -3,7 +3,7 @@
  * Plugin Name:       WP HyperMD
  * Plugin URI:        https://github.com/JaxsonWang/Wp-HyperMD
  * Description:       Perhaps this is the best and most perfect Markdown editor in WordPress
- * Version:           1.0.1
+ * Version:           1.0.2
  * Author:            淮城一只猫
  * Author URI:        https://iiong.com
  * License:           GPL-3.0+
@@ -18,7 +18,7 @@ use HyperMD\Main;
 use HyperMDUtils\Activator;
 use HyperMDUtils\Deactivator;
 
-define( 'CAT_HYPERMD_VER', '1.0.1' ); //版本说明
+define( 'CAT_HYPERMD_VER', '1.0.2' ); //版本说明
 define( 'CAT_HYPERMD_URL', plugins_url( '', __FILE__ ) ); //插件资源路径
 define( 'CAT_HYPERMD_PATH', dirname( __FILE__ ) ); //插件路径文件夹
 define( 'CAT_HYPERMD_NAME', plugin_basename( __FILE__ ) ); //插件名称

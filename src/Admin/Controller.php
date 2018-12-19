@@ -50,7 +50,24 @@ class Controller {
 			add_action( 'admin_print_footer_scripts', array( $this, 'mathjax_admin_print_footer_scripts' ) );
 		}
 
+        // WordPress 5.0 Gutenberg Editor
+        if ( $GLOBALS['wp_version'] >= '5.0' ) {
+            add_filter( 'gutenberg_can_edit_post_type', array($this, 'disable_gutenberg'), 10, 2 );
+            add_filter( 'use_block_editor_for_post_type', array($this,'disable_gutenberg'), 10, 2 );
+        }
 	}
+
+    /**
+     * 禁用Gutenberg编辑器
+     * @param $can_edit
+     * @param $post_type
+     *
+     * @return bool
+     */
+    public function disable_gutenberg( $can_edit, $post_type ) {
+        $can_edit = false;
+        return $can_edit;
+    }
 
 	/**
 	 * 注册脚本文件
